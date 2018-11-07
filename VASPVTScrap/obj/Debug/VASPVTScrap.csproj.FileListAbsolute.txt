@@ -1,0 +1,15 @@
+C:\Users\linas\Documents\Git\VASPVTScrap\VASPVTScrap\bin\Debug\VASPVTScrap.exe.config
+C:\Users\linas\Documents\Git\VASPVTScrap\VASPVTScrap\bin\Debug\VASPVTScrap.exe
+C:\Users\linas\Documents\Git\VASPVTScrap\VASPVTScrap\bin\Debug\VASPVTScrap.pdb
+C:\Users\linas\Documents\Git\VASPVTScrap\VASPVTScrap\bin\Debug\RestSharp.dll
+C:\Users\linas\Documents\Git\VASPVTScrap\VASPVTScrap\bin\Debug\RestSharp.xml
+C:\Users\linas\Documents\Git\VASPVTScrap\VASPVTScrap\obj\Debug\VASPVTScrap.Form1.resources
+C:\Users\linas\Documents\Git\VASPVTScrap\VASPVTScrap\obj\Debug\VASPVTScrap.Properties.Resources.resources
+C:\Users\linas\Documents\Git\VASPVTScrap\VASPVTScrap\obj\Debug\VASPVTScrap.csproj.GenerateResource.cache
+C:\Users\linas\Documents\Git\VASPVTScrap\VASPVTScrap\obj\Debug\VASPVTScrap.csproj.CoreCompileInputs.cache
+C:\Users\linas\Documents\Git\VASPVTScrap\VASPVTScrap\obj\Debug\VASPVTScrap.csproj.CopyComplete
+C:\Users\linas\Documents\Git\VASPVTScrap\VASPVTScrap\obj\Debug\VASPVTScrap.exe
+C:\Users\linas\Documents\Git\VASPVTScrap\VASPVTScrap\obj\Debug\VASPVTScrap.pdb
+C:\Users\linas\Documents\Git\VASPVTScrap\VASPVTScrap\bin\Debug\Newtonsoft.Json.dll
+C:\Users\linas\Documents\Git\VASPVTScrap\VASPVTScrap\bin\Debug\Newtonsoft.Json.xml
+C:\Users\linas\Documents\Git\VASPVTScrap\VASPVTScrap\obj\Debug\VASPVTScrap.csprojAssemblyReference.cache
