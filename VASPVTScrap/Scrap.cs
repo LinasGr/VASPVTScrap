@@ -13,7 +13,7 @@ namespace VASPVTScrap
 {
   class Scrap
   {
-    public Response requestL(int PageNr, int RecordsPerPage)
+    public Response RequestRecords(int PageNr, int RecordsPerPage)
     {
       var client = new RestClient("https://licencijavimas.vaspvt.gov.lt/License/GetPublicSpecialistLicenseList");
       var request = new RestRequest(Method.POST);
@@ -36,25 +36,26 @@ namespace VASPVTScrap
       var deserializedResponce = JsonConvert.DeserializeObject<Response>(response.Content);
       return deserializedResponce;
     }
-    public void requestP()
+    public Licencija RequestRecord(string StampNo)
     {
-      var client = new RestClient("https://licencijavimas.vaspvt.gov.lt/SelectWindows/ReadQualifications");
+      var client = new RestClient("https://licencijavimas.vaspvt.gov.lt/License/GetPublicSpecialistLicenseList");
       var request = new RestRequest(Method.POST);
-      request.AddHeader("Postman-Token", "6b8eaa75-7cf4-4fc5-8529-4be2cc58dc7a");
+      request.AddHeader("Postman-Token", "7169430f-a459-4c9d-99c7-884b72eb19a8");
       request.AddHeader("cache-control", "no-cache");
-      request.AddHeader("DNT", "1");
-      request.AddHeader("Connection", "keep-alive");
-      request.AddHeader("X-Requested-With", "XMLHttpRequest");
-      request.AddHeader("Referer", "https://licencijavimas.vaspvt.gov.lt/License/PublicSpecialistIndex");
-      request.AddHeader("Accept", "*/*");
-      request.AddHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
-      request.AddHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36");
+      request.AddHeader("Cookie", "__RequestVerificationToken=j8FUZueVcN42Lvzc17pjxoSla1jo44fl62iJ3Fe3IVEHF2UJ-NvjNsyj1sFSA8N2U15c2zPOD-xuR9c9cWadwCoANSfsqIogQiEU7KlVzfU1");
       request.AddHeader("Accept-Language", "lt,en-US;q=0.9,en;q=0.8,ru;q=0.7,pl;q=0.6");
       request.AddHeader("Accept-Encoding", "gzip, deflate, br");
+      request.AddHeader("Referer", "https://licencijavimas.vaspvt.gov.lt/License/PublicSpecialistIndex");
+      request.AddHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
+      request.AddHeader("DNT", "1");
+      request.AddHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36");
+      request.AddHeader("X-Requested-With", "XMLHttpRequest");
       request.AddHeader("Origin", "https://licencijavimas.vaspvt.gov.lt");
-      request.AddHeader("Cookie", "__RequestVerificationToken=Q_jwGOoitnXJmqEGH26ZYFE5YjLK53O07R1BGAoirMyNopbdEv5vWtibiqVgYsZvhw22uXdm_UB6zCwwTgOLi7PKLx4jX-kQQOq9royTDaE1");
-      request.AddParameter("undefined", "serviceName=", ParameterType.RequestBody);
+      request.AddHeader("Accept", "*/*");
+      request.AddParameter("undefined", $"sort=&page=1&pageSize=20&group=&filter=StampNo~eq~'{StampNo}'", ParameterType.RequestBody);
       IRestResponse response = client.Execute(request);
+      var licensija = JsonConvert.DeserializeObject<Response>(response.Content);
+      return licensija.Data[0];
     }
   }
 }

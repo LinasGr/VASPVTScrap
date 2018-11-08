@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,11 +25,13 @@ namespace VASPVTScrap
       NeedToBeUpdated = new List<ExcelLicencija>();
     }
 
-    public void CreateExcelFile(string FileName = "VASPVScrap.xls")
+    public void CreateExcelFile(BackgroundWorker bw, string FileName = "VASPVScrap.xls")
     {
+      bw.ReportProgress(10);
       var xlApp = new Excel.Application();
       var xlWb = xlApp.Workbooks.Add();
       var xlSheet = xlApp.ActiveSheet as Excel.Worksheet;
+      bw.ReportProgress(20);
 
       //xlApp.Visible = true;
       //Header
@@ -43,33 +46,45 @@ namespace VASPVTScrap
       xlSheet.Cells[1, 9] = "Įsakymo data ir Nr.";
       xlSheet.Cells[1, 10] = "Priežiūros data";
       xlSheet.Cells[1, 11] = "Priežiūros įsakymo Nr.";
+      bw.ReportProgress(30);
 
-
-      //Data
+      object[,] values = new object[Data.Count,11];
+      //Data preparing
       for (int i = 0; i < Data.Count; i++)
       {
-        xlSheet.Cells[i + 2, 1] = Data[i].Spaudo_Nr;
-        xlSheet.Cells[i + 2, 2] = Data[i].Spaudo_tipas;
-        xlSheet.Cells[i + 2, 3] = Data[i].Vardas;
-        xlSheet.Cells[i + 2, 4] = Data[i].Pavardė;
-        xlSheet.Cells[i + 2, 5] = Data[i].Licencijos_Nr;
-        xlSheet.Cells[i + 2, 6] = Data[i].Profesinė_kvalifikacija;
-        xlSheet.Cells[i + 2, 7] = Data[i].Licencijos_išdavimo_data;
-        xlSheet.Cells[i + 2, 8] = Data[i].Licencijos_būsena;
-        xlSheet.Cells[i + 2, 9] = Data[i].Įsakymo_data_ir_Nr;
-        xlSheet.Cells[i + 2, 10] = Data[i].Priežiūros_data;
-        xlSheet.Cells[i + 2, 11] = Data[i].Priežiūros_įsakymo_Nr;
+        values[i, 0] = Data[i].Spaudo_Nr;
+        values[i, 1] = Data[i].Spaudo_tipas;
+        values[i, 2] = Data[i].Vardas;
+        values[i, 3] = Data[i].Pavardė;
+        values[i, 4] = Data[i].Licencijos_Nr;
+        values[i, 5] = Data[i].Profesinė_kvalifikacija;
+        values[i, 6] = Data[i].Licencijos_išdavimo_data;
+        values[i, 7] = Data[i].Licencijos_būsena;
+        values[i, 8] = Data[i].Įsakymo_data_ir_Nr;
+        values[i, 9] = Data[i].Priežiūros_data;
+        values[i, 10] = Data[i].Priežiūros_įsakymo_Nr;
       }
+      bw.ReportProgress(50);
+
+      //Uploading data to file
+      Excel.Range range = xlSheet.get_Range("A2", "K" + Data.Count);
+      range.Value2 = values;
+      bw.ReportProgress(70);
 
       //Formating
+      range = xlSheet.get_Range("G2", "G" + Data.Count);
+      range.NumberFormat = "DD/MM/YYYY";
+      range = xlSheet.get_Range("J2", "J" + Data.Count);
+      range.NumberFormat = "DD/MM/YYYY";
       xlSheet.Range["A1", "K1"].WrapText = true;
       xlSheet.Range["A1", "K" + (Data.Count + 1)].AutoFormat(Format:
         Excel.XlRangeAutoFormat.xlRangeAutoFormatColor2);
-
+      bw.ReportProgress(93);
       //Save file
       xlApp.DisplayAlerts = false;
       xlWb.SaveAs(path + FileName, Excel.XlFileFormat.xlAddIn8, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Excel.XlSaveAsAccessMode.xlNoChange, Type.Missing, Type.Missing, Type.Missing,
         Type.Missing, Type.Missing);
+      bw.ReportProgress(98);
       xlWb.Close();
       xlApp.Application.Quit();
     }
@@ -82,55 +97,62 @@ namespace VASPVTScrap
       }
     }
 
-    public void ReadExcelFile(string FileName = "VASPVScrap.xls")
+    public void ReadExcelFile(BackgroundWorker bw, string FileName = "VASPVScrap.xls")
     {
       if (!File.Exists(path + FileName)) return;
       if (Data.Count > 0) Data = new List<ExcelLicencija>();
+      bw.ReportProgress(10);
 
+      //Open file
       var xlApp = new Excel.Application();
       //xlApp.Visible = true;
       var xlWb = xlApp.Workbooks.Open(path + FileName);
       var xlSheet = xlApp.ActiveSheet as Excel.Worksheet;
+      bw.ReportProgress(40);
 
-      //Data
-      var licencija = new ExcelLicencija();
-      int i = 2;
-      while ((xlSheet.Cells[i, 1] as Excel.Range).Value2 != null)
-      {
-        licencija.Spaudo_Nr = (xlSheet.Cells[i, 1] as Excel.Range).Value2.ToString();
-        if ((xlSheet.Cells[i, 2] as Excel.Range).Value2 != null)
-          licencija.Spaudo_tipas = (xlSheet.Cells[i, 2] as Excel.Range).Value2.ToString();
-        if ((xlSheet.Cells[i, 3] as Excel.Range).Value2 != null)
-          licencija.Vardas = (xlSheet.Cells[i, 3] as Excel.Range).Value2.ToString();
-        if ((xlSheet.Cells[i, 4] as Excel.Range).Value2 != null)
-          licencija.Pavardė = (xlSheet.Cells[i, 4] as Excel.Range).Value2.ToString();
-        if ((xlSheet.Cells[i, 5] as Excel.Range).Value2 != null)
-          licencija.Licencijos_Nr = (xlSheet.Cells[i, 5] as Excel.Range).Value2.ToString();
-        if ((xlSheet.Cells[i, 6] as Excel.Range).Value2 != null)
-          licencija.Profesinė_kvalifikacija = (xlSheet.Cells[i, 6] as Excel.Range).Value2.ToString();
-        if ((xlSheet.Cells[i, 7] as Excel.Range).Value2 != null)
-          licencija.Licencijos_išdavimo_data = (DateTime)(xlSheet.Cells[i, 7] as Excel.Range).Value;
-        if ((xlSheet.Cells[i, 8] as Excel.Range).Value2 != null)
-          licencija.Licencijos_būsena = (xlSheet.Cells[i, 8] as Excel.Range).Value2.ToString();
-        if ((xlSheet.Cells[i, 9] as Excel.Range).Value2 != null)
-          licencija.Įsakymo_data_ir_Nr = (xlSheet.Cells[i, 9] as Excel.Range).Value2.ToString();
-        if ((xlSheet.Cells[i, 10] as Excel.Range).Value2 != null)
-          licencija.Priežiūros_data = (DateTime)(xlSheet.Cells[i, 10] as Excel.Range).Value;
-        if ((xlSheet.Cells[i, 11] as Excel.Range).Value2 != null)
-          licencija.Priežiūros_įsakymo_Nr = (xlSheet.Cells[i, 11] as Excel.Range).Value2.ToString();
-        Data.Add(licencija);
-        i++;
-      };
+      //Finding last row
+      Excel.Range last = xlSheet.Cells.SpecialCells(Excel.XlCellType.xlCellTypeLastCell, Type.Missing);
+
+      //reading values
+      Excel.Range range = xlSheet.get_Range("A2", last);
+      object[,] values = (object[,])range.Value2;
+      int lastRow = last.Row;
+      bw.ReportProgress(60);
+
+      //Closing excel
       xlWb.Close();
       xlApp.Application.Quit();
+      bw.ReportProgress(80);
+
+      //Filling data
+      for (int i = 1; i < lastRow; i++)
+      {
+        var licencija = new ExcelLicencija();
+        licencija.Spaudo_Nr = Convert.ToString(values[i, 1]);
+        licencija.Spaudo_tipas = Convert.ToString(values[i, 2]);
+        licencija.Vardas = Convert.ToString(values[i, 3]);
+        licencija.Pavardė = Convert.ToString(values[i, 4]);
+        licencija.Licencijos_Nr = Convert.ToString(values[i, 5]);
+        licencija.Profesinė_kvalifikacija = Convert.ToString(values[i, 6]);
+        licencija.Licencijos_išdavimo_data = DateTime.FromOADate(Convert.ToDouble(values[i, 7]));
+        licencija.Licencijos_būsena = Convert.ToString(values[i, 8]);
+        licencija.Įsakymo_data_ir_Nr = Convert.ToString(values[i, 9]);
+        licencija.Priežiūros_data = DateTime.FromOADate(Convert.ToDouble(values[i, 10]));
+        licencija.Priežiūros_įsakymo_Nr = Convert.ToString(values[i, 11]);
+        Data.Add(licencija);
+      }
+      bw.ReportProgress(90);
+      Data = Data.Distinct().ToList();
     }
 
-    public void UpdateData(ExcelData newData)
+    public void UpdateData(ExcelData newData, BackgroundWorker bw)
     {
       NeedToBeUpdated = new List<ExcelLicencija>();
+      bw.ReportProgress(10);
+      //Update changed records
       for (int i = 0; i < Data.Count; i++)
       {
-        var newLicencija = newData.Data.Find(x => x.Spaudo_Nr==Data[i].Spaudo_Nr);
+        var newLicencija = newData.Data.Find(x => x.Spaudo_Nr == Data[i].Spaudo_Nr);
         if (newLicencija != null)
         {
           if (!newLicencija.Equals(Data[i]))
@@ -138,17 +160,24 @@ namespace VASPVTScrap
         }
         else NeedToBeUpdated.Add(Data[i]);
       }
-      if (newData.Data.Count>Data.Count) 
-        newData.Data.ForEach(x =>
-        {
-          if (!Data.Contains(x)) Data.Add(x);
-        });
-      if (Data.Count> newData.Data.Count)
-        newData.Data.ForEach(x=>
-        {
-          var newLicencija=newData.Data.Find(z=>Data.Contains(z));
-          if (newLicencija!=null)Data.Add(newLicencija);
-        });
+      bw.ReportProgress(40);
+
+      //Add new records
+      newData.Data.ForEach(x =>
+      {
+        if (!Data.Contains(x)) Data.Add(x);
+      });
+
+      bw.ReportProgress(60);
+      //Update NeedToBeUpdated
+      for (int i = 0; i < NeedToBeUpdated.Count; i++)
+      {
+        var scrap = new Scrap();
+        Data[Data.IndexOf(NeedToBeUpdated[i])] = new ExcelLicencija(scrap.RequestRecord(NeedToBeUpdated[i].Spaudo_Nr));
+        bw.ReportProgress(i * 40 / NeedToBeUpdated.Count + 60);
+      }
+      NeedToBeUpdated = new List<ExcelLicencija>();
+      bw.ReportProgress(100);
     }
   }
 }

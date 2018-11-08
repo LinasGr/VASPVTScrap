@@ -53,6 +53,9 @@
       this.backgroundWorker_Save_Excel = new System.ComponentModel.BackgroundWorker();
       this.progressBar_Excel_Read = new System.Windows.Forms.ProgressBar();
       this.button_Lyginti_Įrašus = new System.Windows.Forms.Button();
+      this.progressBar_Compare = new System.Windows.Forms.ProgressBar();
+      this.backgroundWorker_Compare = new System.ComponentModel.BackgroundWorker();
+      this.button_Compare_Stop = new System.Windows.Forms.Button();
       ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
       this.SuspendLayout();
       // 
@@ -132,7 +135,7 @@
       // button_Scrap
       // 
       this.button_Scrap.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-      this.button_Scrap.Location = new System.Drawing.Point(280, 547);
+      this.button_Scrap.Location = new System.Drawing.Point(279, 541);
       this.button_Scrap.Name = "button_Scrap";
       this.button_Scrap.Size = new System.Drawing.Size(174, 32);
       this.button_Scrap.TabIndex = 7;
@@ -146,6 +149,7 @@
       this.backgroundWorker_Scrap.WorkerSupportsCancellation = true;
       this.backgroundWorker_Scrap.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker_Scrap_DoWork);
       this.backgroundWorker_Scrap.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.backgroundWorker_Scrap_ProgressChanged);
+      this.backgroundWorker_Scrap.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker_Scrap_RunWorkerCompleted);
       // 
       // label_Puslapiu_Parsiusta
       // 
@@ -169,7 +173,7 @@
       // 
       // progressBar1
       // 
-      this.progressBar1.Location = new System.Drawing.Point(460, 547);
+      this.progressBar1.Location = new System.Drawing.Point(459, 541);
       this.progressBar1.Name = "progressBar1";
       this.progressBar1.Size = new System.Drawing.Size(195, 32);
       this.progressBar1.TabIndex = 10;
@@ -177,7 +181,7 @@
       // button_Scrap_Stop
       // 
       this.button_Scrap_Stop.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-      this.button_Scrap_Stop.Location = new System.Drawing.Point(661, 547);
+      this.button_Scrap_Stop.Location = new System.Drawing.Point(660, 541);
       this.button_Scrap_Stop.Name = "button_Scrap_Stop";
       this.button_Scrap_Stop.Size = new System.Drawing.Size(174, 32);
       this.button_Scrap_Stop.TabIndex = 11;
@@ -208,7 +212,7 @@
       // button_Create_Excel
       // 
       this.button_Create_Excel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-      this.button_Create_Excel.Location = new System.Drawing.Point(280, 615);
+      this.button_Create_Excel.Location = new System.Drawing.Point(279, 657);
       this.button_Create_Excel.Name = "button_Create_Excel";
       this.button_Create_Excel.Size = new System.Drawing.Size(174, 32);
       this.button_Create_Excel.TabIndex = 14;
@@ -231,7 +235,7 @@
       // 
       // progressBar_Excel_Save
       // 
-      this.progressBar_Excel_Save.Location = new System.Drawing.Point(460, 615);
+      this.progressBar_Excel_Save.Location = new System.Drawing.Point(459, 657);
       this.progressBar_Excel_Save.Name = "progressBar_Excel_Save";
       this.progressBar_Excel_Save.Size = new System.Drawing.Size(195, 32);
       this.progressBar_Excel_Save.TabIndex = 15;
@@ -239,7 +243,7 @@
       // button_Read_Excel
       // 
       this.button_Read_Excel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-      this.button_Read_Excel.Location = new System.Drawing.Point(280, 581);
+      this.button_Read_Excel.Location = new System.Drawing.Point(279, 581);
       this.button_Read_Excel.Name = "button_Read_Excel";
       this.button_Read_Excel.Size = new System.Drawing.Size(174, 32);
       this.button_Read_Excel.TabIndex = 16;
@@ -256,7 +260,7 @@
       // 
       // progressBar_Excel_Read
       // 
-      this.progressBar_Excel_Read.Location = new System.Drawing.Point(460, 581);
+      this.progressBar_Excel_Read.Location = new System.Drawing.Point(459, 581);
       this.progressBar_Excel_Read.Name = "progressBar_Excel_Read";
       this.progressBar_Excel_Read.Size = new System.Drawing.Size(195, 32);
       this.progressBar_Excel_Read.TabIndex = 17;
@@ -264,7 +268,7 @@
       // button_Lyginti_Įrašus
       // 
       this.button_Lyginti_Įrašus.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-      this.button_Lyginti_Įrašus.Location = new System.Drawing.Point(661, 615);
+      this.button_Lyginti_Įrašus.Location = new System.Drawing.Point(279, 619);
       this.button_Lyginti_Įrašus.Name = "button_Lyginti_Įrašus";
       this.button_Lyginti_Įrašus.Size = new System.Drawing.Size(174, 32);
       this.button_Lyginti_Įrašus.TabIndex = 18;
@@ -272,11 +276,38 @@
       this.button_Lyginti_Įrašus.UseVisualStyleBackColor = true;
       this.button_Lyginti_Įrašus.Click += new System.EventHandler(this.button_Lyginti_Įrašus_Click);
       // 
+      // progressBar_Compare
+      // 
+      this.progressBar_Compare.Location = new System.Drawing.Point(459, 619);
+      this.progressBar_Compare.Name = "progressBar_Compare";
+      this.progressBar_Compare.Size = new System.Drawing.Size(195, 32);
+      this.progressBar_Compare.TabIndex = 19;
+      // 
+      // backgroundWorker_Compare
+      // 
+      this.backgroundWorker_Compare.WorkerReportsProgress = true;
+      this.backgroundWorker_Compare.WorkerSupportsCancellation = true;
+      this.backgroundWorker_Compare.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker_Compare_DoWork);
+      this.backgroundWorker_Compare.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.backgroundWorker_Compare_ProgressChanged);
+      // 
+      // button_Compare_Stop
+      // 
+      this.button_Compare_Stop.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+      this.button_Compare_Stop.Location = new System.Drawing.Point(660, 619);
+      this.button_Compare_Stop.Name = "button_Compare_Stop";
+      this.button_Compare_Stop.Size = new System.Drawing.Size(174, 32);
+      this.button_Compare_Stop.TabIndex = 20;
+      this.button_Compare_Stop.Text = "Stabdyti";
+      this.button_Compare_Stop.UseVisualStyleBackColor = true;
+      this.button_Compare_Stop.Click += new System.EventHandler(this.button_Compare_Stop_Click);
+      // 
       // Form1
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-      this.ClientSize = new System.Drawing.Size(982, 674);
+      this.ClientSize = new System.Drawing.Size(982, 694);
+      this.Controls.Add(this.button_Compare_Stop);
+      this.Controls.Add(this.progressBar_Compare);
       this.Controls.Add(this.button_Lyginti_Įrašus);
       this.Controls.Add(this.progressBar_Excel_Read);
       this.Controls.Add(this.button_Read_Excel);
@@ -330,6 +361,9 @@
     private System.ComponentModel.BackgroundWorker backgroundWorker_Save_Excel;
     private System.Windows.Forms.ProgressBar progressBar_Excel_Read;
     private System.Windows.Forms.Button button_Lyginti_Įrašus;
+    private System.Windows.Forms.ProgressBar progressBar_Compare;
+    private System.ComponentModel.BackgroundWorker backgroundWorker_Compare;
+    private System.Windows.Forms.Button button_Compare_Stop;
   }
 }
 
