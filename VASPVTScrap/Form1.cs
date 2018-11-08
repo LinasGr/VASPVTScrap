@@ -18,7 +18,8 @@ namespace VASPVTScrap
   {
     private BindingSource source { get; set; }
     private Response response { get; set; }
-    private List<ExcelLicensija> ExcelData { get; set; }
+    private ExcelData ExcelDataFromServer { get; set; }
+    private ExcelData ExcelDataFromFile { get; set; }
     private Scrap request { get; set; }
     private int PagesOnServer { get; set; }
     private int PagesDownloaded { get; set; }
@@ -32,19 +33,20 @@ namespace VASPVTScrap
       response = new Response();
       PagesOnServer = 0;
       PagesDownloaded = 0;
-      ExcelData = new List<ExcelLicensija>();
-      source.DataSource = ExcelData;
+      ExcelDataFromServer = new ExcelData();
+      ExcelDataFromFile = new ExcelData();
+      backgroundWorker_Read_Excel.RunWorkerAsync();
+      source.DataSource = ExcelDataFromServer.Data;
       dataGridView1.DataSource = source;
       dataGridView1.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.DisplayedCellsExceptHeaders;
       dataGridView1.BorderStyle = BorderStyle.Fixed3D;
       dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
-      progressBar1.Visible = false;
     }
 
 
     private void FillData(Response responcePackage)
     {
-      responcePackage.Data.ForEach(x => ExcelData.Add(new ExcelLicensija(x)));
+      responcePackage.Data.ForEach(x => ExcelDataFromServer.Data.Add(new ExcelLicencija(x)));
       if (label_Count_Server.Text != responcePackage.Total.ToString())
         label_Count_Server.Text = responcePackage.Total.ToString();
 
@@ -53,7 +55,7 @@ namespace VASPVTScrap
         label_Klaidos.Text = responcePackage.Errors.ToString();
       }
 
-      label_Count_Parsiusta.Text = ExcelData.Count.ToString();
+      label_Count_Parsiusta.Text = ExcelDataFromServer.Data.Count.ToString();
       source.ResetBindings(false);
     }
 
@@ -61,51 +63,47 @@ namespace VASPVTScrap
 
     private void button_Scrap_Click(object sender, EventArgs e)
     {
-      if (backgroundWorker1.IsBusy)
+      if (backgroundWorker_Scrap.IsBusy)
       {
         MessageBox.Show("Siuntimas jau vyksta.");
         return;
       }
-      progressBar1.Visible = true;
       progressBar1.Value = 0;
-      progressBar1.Maximum = 100;
-      progressBar1.Minimum = 0;
       PagesOnServer = 0;
       PagesDownloaded = 0;
-      backgroundWorker1.RunWorkerAsync();
+      backgroundWorker_Scrap.RunWorkerAsync();
     }
 
-    private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
+    private void backgroundWorker_Scrap_DoWork(object sender, DoWorkEventArgs e)
     {
       var stopWatch = new Stopwatch();
       stopWatch.Start();
-      var recordsPerPage = 500;
+      var recordsPerPage = 50;
       response = request.requestL(1, recordsPerPage);
       var recordsOnServer = response.Total;
       var pagesTotal = recordsOnServer / recordsPerPage
                        + (recordsOnServer % recordsPerPage == 0 ? 0 : 1);
-      response.Data.ForEach(x => ExcelData.Add(new ExcelLicensija(x)));
+      response.Data.ForEach(x => ExcelDataFromServer.Data.Add(new ExcelLicencija(x)));
       PagesDownloaded++;
       PagesOnServer = pagesTotal;
-      backgroundWorker1.ReportProgress(100 / pagesTotal);
+      pagesTotal = 1;//Laikinas limitas
+      backgroundWorker_Scrap.ReportProgress(100 / pagesTotal);
       for (int i = 2; i <= pagesTotal; i++)
       {
         Thread.Sleep(5000);
         response = request.requestL(i, recordsPerPage);
-        response.Data.ForEach(x => ExcelData.Add(new ExcelLicensija(x)));
+        response.Data.ForEach(x => ExcelDataFromServer.Data.Add(new ExcelLicencija(x)));
         PagesDownloaded++;
-        backgroundWorker1.ReportProgress(i * 100 / pagesTotal);
+        backgroundWorker_Scrap.ReportProgress(i * 100 / pagesTotal);
       }
       stopWatch.Stop();
       TookTimeSpan = stopWatch.Elapsed;
       MessageBox.Show($"Duomenys parsiūsti per - {TookTimeSpan.TotalMinutes.ToString("##.##")} min.");
     }
 
-    private void backgroundWorker1_ProgressChanged(object sender, ProgressChangedEventArgs e)
+    private void backgroundWorker_Scrap_ProgressChanged(object sender, ProgressChangedEventArgs e)
     {
       progressBar1.Value = e.ProgressPercentage;
-      source.DataSource = ExcelData;
-      dataGridView1.DataSource = source;
       if (label_Count_Server.Text != response.Total.ToString())
         label_Count_Server.Text = response.Total.ToString();
 
@@ -113,68 +111,97 @@ namespace VASPVTScrap
       {
         label_Klaidos.Text = response.Errors.ToString();
       }
-      label_Count_Parsiusta.Text = ExcelData.Count.ToString();
+      label_Count_Parsiusta.Text = ExcelDataFromServer.Data.Count.ToString();
       label_Puslapiu_Parsiusta.Text = PagesDownloaded.ToString();
       label_Puslapiu_Serveryje.Text = PagesOnServer.ToString();
       source.ResetBindings(false);
-     // this.Refresh();
+      // this.Refresh();
     }
 
     private void button_Scrap_Stop_Click(object sender, EventArgs e)
     {
-      if (backgroundWorker1.IsBusy)
+      if (backgroundWorker_Scrap.IsBusy)
       {
-        backgroundWorker1.CancelAsync();
+        backgroundWorker_Scrap.CancelAsync();
         progressBar1.Visible = false;
       }
     }
 
-    private void CreateExcelFile()
+    private void button_Create_Excel_Click(object sender, EventArgs e)
     {
-      if (ExcelData.Count == 0)
+      if (backgroundWorker_Read_Excel.IsBusy)
+      {
+        MessageBox.Show("Vyksta Excel failo skaitymas.");
+        return;
+      }
+      if (ExcelDataFromServer.Data.Count == 0)
       {
         MessageBox.Show("Nėra įrašų.");
         return;
       }
-      var xlApp = new Excel.Application();
-      xlApp.Workbooks.Add();
-      var xlSheet = xlApp.ActiveSheet as Excel.Worksheet;
-      xlApp.Visible = true;
-      xlSheet.Cells[1, 1] = "Spaudo Nr.";
-      xlSheet.Cells[1, 2] = "Spaudo tipas";
-      xlSheet.Cells[1, 3] = "Vardas";
-      xlSheet.Cells[1, 4] = "Pavardė";
-      xlSheet.Cells[1, 5] = "Licencijos Nr.";
-      xlSheet.Cells[1, 6] = "Profesinė kvalifikacija";
-      xlSheet.Cells[1, 7] = "Licencijos išdavimo data";
-      xlSheet.Cells[1, 8] = "Licencijos būsena";
-      xlSheet.Cells[1, 9] = "Įsakymo data ir Nr.";
-      xlSheet.Cells[1, 10] = "Priežiūros data";
-      xlSheet.Cells[1, 11] = "Priežiūros įsakymo Nr.";
-      xlSheet.Range["A1", "K1"].WrapText = true;
-
-      for (int i = 0; i < ExcelData.Count; i++)
+      if (backgroundWorker_Save_Excel.IsBusy)
       {
-        xlSheet.Cells[i + 2, 1] = ExcelData[i].Spaudo_Nr;
-        xlSheet.Cells[i + 2, 2] = ExcelData[i].Spaudo_tipas;
-        xlSheet.Cells[i + 2, 3] = ExcelData[i].Vardas;
-        xlSheet.Cells[i + 2, 4] = ExcelData[i].Pavardė;
-        xlSheet.Cells[i + 2, 5] = ExcelData[i].Licencijos_Nr;
-        xlSheet.Cells[i + 2, 6] = ExcelData[i].Profesinė_kvalifikacija;
-        xlSheet.Cells[i + 2, 7] = ExcelData[i].Licencijos_išdavimo_data;
-        xlSheet.Cells[i + 2, 8] = ExcelData[i].Licencijos_būsena;
-        xlSheet.Cells[i + 2, 9] = ExcelData[i].Įsakymo_data_ir_Nr;
-        xlSheet.Cells[i + 2, 10] = ExcelData[i].Priežiūros_data;
-        xlSheet.Cells[i + 2, 11] = ExcelData[i].Priežiūros_įsakymo_Nr;
+        MessageBox.Show("Įrašymas jau vyksta.");
+        return;
       }
-
-      xlSheet.Range["A1", "K" + (ExcelData.Count + 1)].AutoFormat(Format:
-        Excel.XlRangeAutoFormat.xlRangeAutoFormatColor2);
+      backgroundWorker_Save_Excel.RunWorkerAsync();
     }
 
-    private void button_Create_Excel_Click(object sender, EventArgs e)
+    private void backgroundWorker_Read_Excel_DoWork(object sender, DoWorkEventArgs e)
     {
-      CreateExcelFile();
+      backgroundWorker_Read_Excel.ReportProgress(40);
+      ExcelDataFromFile.ReadExcelFile();
+      backgroundWorker_Read_Excel.ReportProgress(80);
+      ExcelDataFromFile.BackUpFile();
+      backgroundWorker_Read_Excel.ReportProgress(100);
+    }
+
+    private void backgroundWorker_Save_Excel_DoWork(object sender, DoWorkEventArgs e)
+    {
+      backgroundWorker_Save_Excel.ReportProgress(40);
+      ExcelDataFromServer.CreateExcelFile();
+      backgroundWorker_Save_Excel.ReportProgress(100);
+    }
+
+    private void backgroundWorker_Save_Excel_ProgressChanged(object sender, ProgressChangedEventArgs e)
+    {
+      progressBar_Excel_Save.Value = e.ProgressPercentage;
+    }
+
+    private void button_Read_Excel_Click(object sender, EventArgs e)
+    {
+      if (backgroundWorker_Read_Excel.IsBusy)
+      {
+        MessageBox.Show("Vyksta Excel failo skaitymas.");
+        return;
+      }
+      if (backgroundWorker_Save_Excel.IsBusy)
+      {
+        MessageBox.Show("Įrašymas jau vyksta.");
+        return;
+      }
+      progressBar_Excel_Read.Value = 0;
+      backgroundWorker_Read_Excel.RunWorkerAsync();
+    }
+
+    private void backgroundWorker_Read_Excel_ProgressChanged(object sender, ProgressChangedEventArgs e)
+    {
+      progressBar_Excel_Read.Value = e.ProgressPercentage;
+    }
+
+    private void backgroundWorker_Read_Excel_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+    {
+
+    }
+
+    private void backgroundWorker_Save_Excel_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+    {
+      //MessageBox.Show("Duomenys išsaugoti į Excel failą.");
+    }
+
+    private void button_Lyginti_Įrašus_Click(object sender, EventArgs e)
+    {
+      ExcelDataFromFile.UpdateData(ExcelDataFromServer);
     }
   }
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace VASPVTScrap.Models
 {
-  class ExcelLicensija
+  class ExcelLicencija
   {
     public string Spaudo_Nr { get; set; }
     public string Spaudo_tipas { get; set; }
@@ -20,7 +20,11 @@ namespace VASPVTScrap.Models
     public DateTime? Priežiūros_data { get; set; }
     public string Priežiūros_įsakymo_Nr { get; set; }
 
-    public ExcelLicensija(Licencija data)
+    public ExcelLicencija()
+    {
+    }
+
+    public ExcelLicencija(Licencija data)
     {
       Spaudo_Nr = data.StampNo;
       Spaudo_tipas = data.StampType;
@@ -36,5 +40,7 @@ namespace VASPVTScrap.Models
       Priežiūros_data = data.MaintenanceDate;
       Priežiūros_įsakymo_Nr = data.OrderNo;
     }
+
+
   }
 }
