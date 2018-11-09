@@ -40,7 +40,7 @@
       this.backgroundWorker_Scrap = new System.ComponentModel.BackgroundWorker();
       this.label_Puslapiu_Parsiusta = new System.Windows.Forms.Label();
       this.label5 = new System.Windows.Forms.Label();
-      this.progressBar1 = new System.Windows.Forms.ProgressBar();
+      this.progressBar_Scrap = new System.Windows.Forms.ProgressBar();
       this.button_Scrap_Stop = new System.Windows.Forms.Button();
       this.label_Puslapiu_Serveryje = new System.Windows.Forms.Label();
       this.label6 = new System.Windows.Forms.Label();
@@ -58,6 +58,8 @@
       this.richTextBox_Log = new System.Windows.Forms.RichTextBox();
       this.label_Dublikatai = new System.Windows.Forms.Label();
       this.label7 = new System.Windows.Forms.Label();
+      this.button_Open_Dir = new System.Windows.Forms.Button();
+      this.checkBox_Auto = new System.Windows.Forms.CheckBox();
       this.SuspendLayout();
       // 
       // label1
@@ -104,7 +106,7 @@
       // 
       this.label_Klaidos.AutoSize = true;
       this.label_Klaidos.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-      this.label_Klaidos.Location = new System.Drawing.Point(183, 435);
+      this.label_Klaidos.Location = new System.Drawing.Point(183, 417);
       this.label_Klaidos.Name = "label_Klaidos";
       this.label_Klaidos.Size = new System.Drawing.Size(19, 20);
       this.label_Klaidos.TabIndex = 6;
@@ -114,7 +116,7 @@
       // 
       this.label4.AutoSize = true;
       this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-      this.label4.Location = new System.Drawing.Point(12, 435);
+      this.label4.Location = new System.Drawing.Point(12, 417);
       this.label4.Name = "label4";
       this.label4.Size = new System.Drawing.Size(69, 20);
       this.label4.TabIndex = 5;
@@ -159,12 +161,12 @@
       this.label5.TabIndex = 8;
       this.label5.Text = "Puslapių parsiūsta:";
       // 
-      // progressBar1
+      // progressBar_Scrap
       // 
-      this.progressBar1.Location = new System.Drawing.Point(454, 325);
-      this.progressBar1.Name = "progressBar1";
-      this.progressBar1.Size = new System.Drawing.Size(195, 32);
-      this.progressBar1.TabIndex = 10;
+      this.progressBar_Scrap.Location = new System.Drawing.Point(454, 325);
+      this.progressBar_Scrap.Name = "progressBar_Scrap";
+      this.progressBar_Scrap.Size = new System.Drawing.Size(195, 32);
+      this.progressBar_Scrap.TabIndex = 10;
       // 
       // button_Scrap_Stop
       // 
@@ -305,7 +307,7 @@
       // 
       this.label_Dublikatai.AutoSize = true;
       this.label_Dublikatai.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-      this.label_Dublikatai.Location = new System.Drawing.Point(183, 415);
+      this.label_Dublikatai.Location = new System.Drawing.Point(183, 397);
       this.label_Dublikatai.Name = "label_Dublikatai";
       this.label_Dublikatai.Size = new System.Drawing.Size(19, 20);
       this.label_Dublikatai.TabIndex = 23;
@@ -315,17 +317,41 @@
       // 
       this.label7.AutoSize = true;
       this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-      this.label7.Location = new System.Drawing.Point(12, 415);
+      this.label7.Location = new System.Drawing.Point(12, 397);
       this.label7.Name = "label7";
       this.label7.Size = new System.Drawing.Size(136, 20);
       this.label7.TabIndex = 22;
       this.label7.Text = "Ištrinta dublikatų:";
+      // 
+      // button_Open_Dir
+      // 
+      this.button_Open_Dir.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+      this.button_Open_Dir.Location = new System.Drawing.Point(655, 441);
+      this.button_Open_Dir.Name = "button_Open_Dir";
+      this.button_Open_Dir.Size = new System.Drawing.Size(174, 32);
+      this.button_Open_Dir.TabIndex = 24;
+      this.button_Open_Dir.Text = "Atidaryti aplanką";
+      this.button_Open_Dir.UseVisualStyleBackColor = true;
+      this.button_Open_Dir.Click += new System.EventHandler(this.button_Open_Dir_Click);
+      // 
+      // checkBox_Auto
+      // 
+      this.checkBox_Auto.AutoSize = true;
+      this.checkBox_Auto.Location = new System.Drawing.Point(31, 449);
+      this.checkBox_Auto.Name = "checkBox_Auto";
+      this.checkBox_Auto.Size = new System.Drawing.Size(146, 21);
+      this.checkBox_Auto.TabIndex = 26;
+      this.checkBox_Auto.Text = "Atlikti automatiškai";
+      this.checkBox_Auto.UseVisualStyleBackColor = true;
+      this.checkBox_Auto.CheckedChanged += new System.EventHandler(this.checkBox_Auto_CheckedChanged);
       // 
       // Form1
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
       this.ClientSize = new System.Drawing.Size(845, 485);
+      this.Controls.Add(this.checkBox_Auto);
+      this.Controls.Add(this.button_Open_Dir);
       this.Controls.Add(this.label_Dublikatai);
       this.Controls.Add(this.label7);
       this.Controls.Add(this.richTextBox_Log);
@@ -339,7 +365,7 @@
       this.Controls.Add(this.label_Puslapiu_Serveryje);
       this.Controls.Add(this.label6);
       this.Controls.Add(this.button_Scrap_Stop);
-      this.Controls.Add(this.progressBar1);
+      this.Controls.Add(this.progressBar_Scrap);
       this.Controls.Add(this.label_Puslapiu_Parsiusta);
       this.Controls.Add(this.label5);
       this.Controls.Add(this.button_Scrap);
@@ -368,7 +394,7 @@
     private System.ComponentModel.BackgroundWorker backgroundWorker_Scrap;
     private System.Windows.Forms.Label label_Puslapiu_Parsiusta;
     private System.Windows.Forms.Label label5;
-    private System.Windows.Forms.ProgressBar progressBar1;
+    private System.Windows.Forms.ProgressBar progressBar_Scrap;
     private System.Windows.Forms.Button button_Scrap_Stop;
     private System.Windows.Forms.Label label_Puslapiu_Serveryje;
     private System.Windows.Forms.Label label6;
@@ -386,6 +412,8 @@
     private System.Windows.Forms.RichTextBox richTextBox_Log;
     private System.Windows.Forms.Label label_Dublikatai;
     private System.Windows.Forms.Label label7;
+    private System.Windows.Forms.Button button_Open_Dir;
+    private System.Windows.Forms.CheckBox checkBox_Auto;
   }
 }
 

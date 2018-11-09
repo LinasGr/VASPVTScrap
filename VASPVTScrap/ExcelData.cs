@@ -14,15 +14,25 @@ namespace VASPVTScrap
   class ExcelData
   {
     public List<ExcelLicencija> Data { get; set; }
-    private string path;
+    public string path { get; }
+    private Excel.Application xlApp;
 
     public List<ExcelLicencija> NeedToBeUpdated { get; set; }
 
     public ExcelData()
     {
+      xlApp =  new Excel.Application();
+      xlApp.DisplayAlerts = false;
       Data = new List<ExcelLicencija>();
-      path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\";
+      path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\VASPVTScrap\\";
+      if (!Directory.Exists(path)) Directory.CreateDirectory(path);
       NeedToBeUpdated = new List<ExcelLicencija>();
+    }
+
+    ~ExcelData()
+    {
+      xlApp.Application.Quit();
+      xlApp.Quit();
     }
 
     public int Distinct()
@@ -69,7 +79,6 @@ namespace VASPVTScrap
       bw.ReportProgress(20);
 
       //Opening file
-      var xlApp = new Excel.Application();
       var xlWb = xlApp.Workbooks.Add();
       var xlSheet = xlApp.ActiveSheet as Excel.Worksheet;
       bw.ReportProgress(45);
@@ -90,7 +99,6 @@ namespace VASPVTScrap
       bw.ReportProgress(80);
 
       //Save file
-      xlApp.DisplayAlerts = false;
       xlWb.SaveAs(path + FileName, Excel.XlFileFormat.xlAddIn8, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Excel.XlSaveAsAccessMode.xlNoChange, Type.Missing, Type.Missing, Type.Missing,
         Type.Missing, Type.Missing);
       bw.ReportProgress(90);
@@ -106,7 +114,8 @@ namespace VASPVTScrap
     {
       if (File.Exists(path + FileName))
       {
-        File.Copy(path + FileName, path + DateTime.Now.ToString("yyyy-MM-dd_hh-mm-ss_") + FileName, true);
+        if (!Directory.Exists(path + "BackupData")) Directory.CreateDirectory(path + "BackupData");
+        File.Copy(path + FileName, path+ "BackupData\\" + DateTime.Now.ToString("yyyy-MM-dd_hh-mm-ss_") + FileName, true);
       }
     }
 
@@ -117,8 +126,6 @@ namespace VASPVTScrap
       bw.ReportProgress(10);
 
       //Open file
-      var xlApp = new Excel.Application();
-      //xlApp.Visible = true;
       var xlWb = xlApp.Workbooks.Open(path + FileName);
       var xlSheet = xlApp.ActiveSheet as Excel.Worksheet;
       bw.ReportProgress(40);
