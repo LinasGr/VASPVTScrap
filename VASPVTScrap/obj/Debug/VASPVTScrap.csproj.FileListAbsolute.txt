@@ -13,3 +13,5 @@ C:\Users\linas\Documents\Git\VASPVTScrap\VASPVTScrap\obj\Debug\VASPVTScrap.pdb
 C:\Users\linas\Documents\Git\VASPVTScrap\VASPVTScrap\bin\Debug\Newtonsoft.Json.dll
 C:\Users\linas\Documents\Git\VASPVTScrap\VASPVTScrap\bin\Debug\Newtonsoft.Json.xml
 C:\Users\linas\Documents\Git\VASPVTScrap\VASPVTScrap\obj\Debug\VASPVTScrap.csprojAssemblyReference.cache
+C:\Users\linas\Documents\Git\VASPVTScrap\VASPVTScrap\bin\Debug\Beep Ping-SoundBible.com-217088958.wav
+C:\Users\linas\Documents\Git\VASPVTScrap\VASPVTScrap\bin\Debug\Dapino-Medical-People-Nurse.ico

@@ -5,6 +5,7 @@ using System.Data;
 using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
+using System.Media;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -16,32 +17,32 @@ namespace VASPVTScrap
 {
   public partial class Form1 : Form
   {
-    private BindingSource source { get; set; }
     private Response response { get; set; }
+    private Scrap request { get; set; }
     private ExcelData ExcelDataFromServer { get; set; }
     private ExcelData ExcelDataFromFile { get; set; }
-    private Scrap request { get; set; }
-    private int PagesOnServer { get; set; }
-    private int PagesDownloaded { get; set; }
-    private System.TimeSpan TookTimeSpan { get; set; }
-    private int klaidos { get; set; }
+    private LogData ScrapLog { get; set; }
+    private LogData FileReadLog { get; set; }
+    private LogData FileSaveLog { get; set; }
+    private LogData CompareLog { get; set; }
 
     public Form1()
     {
       InitializeComponent();
+      ScrapLog=new LogData();
+      FileReadLog=new LogData();
+      FileSaveLog=new LogData();
+      CompareLog=new LogData();
       request = new Scrap();
-      source = new BindingSource();
       response = new Response();
-      PagesOnServer = 0;
-      PagesDownloaded = 0;
+      //PagesOnServer = 0;
+      //PagesDownloaded = 0;
       ExcelDataFromServer = new ExcelData();
       ExcelDataFromFile = new ExcelData();
-      //backgroundWorker_Read_Excel.RunWorkerAsync();
-      source.DataSource = ExcelDataFromServer.Data;
-      dataGridView1.DataSource = source;
-      dataGridView1.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.DisplayedCellsExceptHeaders;
-      dataGridView1.BorderStyle = BorderStyle.Fixed3D;
-      dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+      richTextBox_Log.AppendText($"[{DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss")}] - " +
+                                 "Programos paleidimas - [");
+      richTextBox_Log.AppendText("Atlikta", Color.Green);
+      richTextBox_Log.AppendText("]\n");
     }
 
     private void button_Scrap_Click(object sender, EventArgs e)
@@ -52,14 +53,12 @@ namespace VASPVTScrap
         return;
       }
       progressBar1.Value = 1;
-      PagesOnServer = 0;
-      PagesDownloaded = 0;
       backgroundWorker_Scrap.RunWorkerAsync();
     }
 
     private void backgroundWorker_Scrap_DoWork(object sender, DoWorkEventArgs e)
     {
-      klaidos = 0;
+      ScrapLog.errors = 0;
       var stopWatch = new Stopwatch();
       stopWatch.Start();
     
@@ -68,17 +67,17 @@ namespace VASPVTScrap
       var recordsOnServer = response.Total;
       var pagesTotal = recordsOnServer / recordsPerPage
                        + (recordsOnServer % recordsPerPage == 0 ? 0 : 1);
- 
-      response.Data.ForEach(x => {
+
+      response.Data.ForEach(x =>
+      {
         if (x.StampNo != null)
           ExcelDataFromServer.Data.Add(new ExcelLicencija(x));
         else
-          klaidos++;
+          ScrapLog.errors++;
       });
 
-      PagesDownloaded++;
-      PagesOnServer = pagesTotal;
-      //pagesTotal = 1;//Laikinas limitas
+      ScrapLog.remotePages = pagesTotal;
+      ScrapLog.localPages++;
       backgroundWorker_Scrap.ReportProgress(100 / pagesTotal);
 
       for (int i = 2; i <= pagesTotal; i++)
@@ -88,32 +87,30 @@ namespace VASPVTScrap
 
         response.Data.ForEach(x =>
         {
-          if (x.StampNo!=null)
+          if (x.StampNo != null && x.StampNo!="")
             ExcelDataFromServer.Data.Add(new ExcelLicencija(x));
           else
-            klaidos++;
+            ScrapLog.errors++;
         });
 
-        PagesDownloaded++;
+        ScrapLog.localPages++;
         backgroundWorker_Scrap.ReportProgress(i * 100 / pagesTotal);
       }
 
-      ExcelDataFromServer.Data=ExcelDataFromServer.Data.Distinct().ToList();
+      ScrapLog.dublicates = ExcelDataFromServer.Distinct();
       stopWatch.Stop();
-      TookTimeSpan = stopWatch.Elapsed;
-      MessageBox.Show($"Duomenys parsiūsti per - {TookTimeSpan.TotalMinutes.ToString("##.##")} min.");
+      ScrapLog.timeSpan = stopWatch.Elapsed;
     }
 
     private void backgroundWorker_Scrap_ProgressChanged(object sender, ProgressChangedEventArgs e)
     {
       progressBar1.Value = e.ProgressPercentage;
-      label_Klaidos.Text = klaidos.ToString();
+      label_Klaidos.Text = ScrapLog.errors.ToString();
       if (label_Count_Server.Text != response.Total.ToString())
         label_Count_Server.Text = response.Total.ToString();
       label_Count_Parsiusta.Text = ExcelDataFromServer.Data.Count.ToString();
-      label_Puslapiu_Parsiusta.Text = PagesDownloaded.ToString();
-      label_Puslapiu_Serveryje.Text = PagesOnServer.ToString();
-      source.ResetBindings(false);
+      label_Puslapiu_Parsiusta.Text = ScrapLog.localPages.ToString();
+      label_Puslapiu_Serveryje.Text = ScrapLog.remotePages.ToString();
     }
 
     private void button_Scrap_Stop_Click(object sender, EventArgs e)
@@ -121,7 +118,7 @@ namespace VASPVTScrap
       if (backgroundWorker_Scrap.IsBusy)
       {
         backgroundWorker_Scrap.CancelAsync();
-        progressBar1.Visible = false;
+        progressBar1.Value = 0;
       }
     }
 
@@ -153,12 +150,19 @@ namespace VASPVTScrap
     private void backgroundWorker_Read_Excel_DoWork(object sender, DoWorkEventArgs e)
     {
       backgroundWorker_Read_Excel.ReportProgress(0);
+      var stopWatch = new Stopwatch();
+      stopWatch.Start();
       ExcelDataFromFile.ReadExcelFile(sender as BackgroundWorker);
+      FileReadLog.dublicates = ExcelDataFromFile.Distinct();
       backgroundWorker_Read_Excel.ReportProgress(100);
+      stopWatch.Stop();
+      FileReadLog.timeSpan = stopWatch.Elapsed;
     }
 
     private void backgroundWorker_Save_Excel_DoWork(object sender, DoWorkEventArgs e)
     {
+      var stopWatch = new Stopwatch();
+      stopWatch.Start();
       backgroundWorker_Save_Excel.ReportProgress(5);
       if (ExcelDataFromFile.Data.Count == 0)
         ExcelDataFromFile.Data = ExcelDataFromServer.Data;
@@ -167,6 +171,9 @@ namespace VASPVTScrap
       backgroundWorker_Save_Excel.ReportProgress(40);
       ExcelDataFromFile.CreateExcelFile(sender as BackgroundWorker);
       backgroundWorker_Save_Excel.ReportProgress(100);
+      stopWatch.Stop();
+      FileSaveLog.timeSpan = stopWatch.Elapsed;
+      playSimpleSound();
     }
 
     private void backgroundWorker_Save_Excel_ProgressChanged(object sender, ProgressChangedEventArgs e)
@@ -197,12 +204,23 @@ namespace VASPVTScrap
 
     private void backgroundWorker_Read_Excel_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
     {
-
+      richTextBox_Log.AppendText($"[{DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss")}] - " +
+                                 $"Nuskaityta įrašų({ExcelDataFromFile.Data.Count}). " +
+                                 "Ištrinta dublikatų(");
+      richTextBox_Log.AppendText(FileReadLog.dublicates.ToString(), ScrapLog.dublicates > 0 ? Color.Red : Color.Green);
+      richTextBox_Log.AppendText($"). Užtruko sekundžių({FileReadLog.timeSpan.TotalSeconds}) - [");
+      richTextBox_Log.AppendText("Atlikta",FileReadLog.dublicates==0? Color.Green:Color.Red);
+      richTextBox_Log.AppendText("]\n");
+      playSimpleSound();
     }
 
     private void backgroundWorker_Save_Excel_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
     {
-      //MessageBox.Show("Duomenys išsaugoti į Excel failą.");
+      richTextBox_Log.AppendText($"[{DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss")}] - " +
+                                 $"Išsaugota įrašų({ExcelDataFromFile.Data.Count}). " +
+                                 $"Užtruko sekundžių({FileSaveLog.timeSpan.TotalSeconds}) - [");
+      richTextBox_Log.AppendText("Atlikta", Color.Green);
+      richTextBox_Log.AppendText("]\n");
     }
 
     private void button_Lyginti_Įrašus_Click(object sender, EventArgs e)
@@ -223,7 +241,13 @@ namespace VASPVTScrap
 
     private void backgroundWorker_Compare_DoWork(object sender, DoWorkEventArgs e)
     {
+      var stopWatch = new Stopwatch();
+      stopWatch.Start();
+      backgroundWorker_Compare.ReportProgress(0);
       ExcelDataFromFile.UpdateData(ExcelDataFromServer, sender as BackgroundWorker);
+      stopWatch.Stop();
+      CompareLog.timeSpan = stopWatch.Elapsed;
+      playSimpleSound();
     }
 
     private void backgroundWorker_Compare_ProgressChanged(object sender, ProgressChangedEventArgs e)
@@ -233,13 +257,45 @@ namespace VASPVTScrap
 
     private void button_Compare_Stop_Click(object sender, EventArgs e)
     {
-      if (backgroundWorker_Compare.IsBusy)backgroundWorker_Compare.CancelAsync();
+      if (backgroundWorker_Compare.IsBusy) backgroundWorker_Compare.CancelAsync();
       progressBar_Compare.Value = 0;
     }
 
     private void backgroundWorker_Scrap_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
     {
       label_Count_Parsiusta.Text = ExcelDataFromServer.Data.Count.ToString();
+      richTextBox_Log.AppendText($"[{DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss")}] - " +
+                                 $"Serveryje įrašų({label_Count_Server.Text}). " +
+                                 $"Įrašų parsiųsta({label_Count_Parsiusta.Text}). " +
+                                 $"Puslapių serveryje({label_Puslapiu_Serveryje.Text}). " +
+                                 $"Puslapių parsiūsta({label_Puslapiu_Parsiusta.Text}). Klaidos(");
+      richTextBox_Log.AppendText(label_Klaidos.Text, label_Klaidos.Text == "0" ? this.ForeColor : Color.Red);
+      richTextBox_Log.AppendText("), Dublikatų ištrinta(");
+      richTextBox_Log.AppendText(ScrapLog.dublicates.ToString(),ScrapLog.dublicates>0?Color.Red : Color.Green);
+      richTextBox_Log.AppendText($"), Užtruko minučiu({ScrapLog.timeSpan.Minutes}) - [");
+      if (ScrapLog.errors==0&&ScrapLog.dublicates==0) richTextBox_Log.AppendText("Atlikta", Color.Green);
+      else richTextBox_Log.AppendText("Atlikta", Color.Red);
+      richTextBox_Log.AppendText("]\n");
+      playSimpleSound();
+    }
+
+    private void backgroundWorker_Compare_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+    {
+      richTextBox_Log.AppendText($"[{DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss")}] - " +
+                                 $"Palyginta įrašų({ExcelDataFromFile.Data.Count}). " +
+                                 $"Užtruko sekundžių({CompareLog.timeSpan.TotalSeconds}) - [");
+      richTextBox_Log.AppendText("Atlikta", Color.Green);
+      richTextBox_Log.AppendText("]\n");
+    }
+    private void playSimpleSound()
+    {
+      SoundPlayer simpleSound = new SoundPlayer("Beep Ping-SoundBible.com-217088958.wav");
+      simpleSound.Play();
+    }
+
+    private void bindingSource1_CurrentChanged(object sender, EventArgs e)
+    {
+
     }
   }
 }

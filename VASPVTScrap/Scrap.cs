@@ -15,6 +15,7 @@ namespace VASPVTScrap
   {
     public Response RequestRecords(int PageNr, int RecordsPerPage)
     {
+      //RecordsPerPage = 10;
       var client = new RestClient("https://licencijavimas.vaspvt.gov.lt/License/GetPublicSpecialistLicenseList");
       var request = new RestRequest(Method.POST);
       request.AddHeader("postman-token", "502fc85e-16e4-cfce-6d6e-d619fbc5dd75");
@@ -29,7 +30,7 @@ namespace VASPVTScrap
       request.AddHeader("x-requested-with", "XMLHttpRequest");
       request.AddHeader("origin", "https://licencijavimas.vaspvt.gov.lt");
       request.AddHeader("accept", "*/*");
-      request.AddParameter("application/x-www-form-urlencoded; charset=UTF-8", $"sort=&page={PageNr}&pageSize={RecordsPerPage}&group=&filter=State~eq~1~and~ProfessionalQualification~eq~'%C5%A0eimos+gydytojas'", ParameterType.RequestBody);
+      request.AddParameter("application/x-www-form-urlencoded; charset=UTF-8", $"sort=Id&page={PageNr}&pageSize={RecordsPerPage}&group=&filter=State~eq~1~and~ProfessionalQualification~eq~'%C5%A0eimos+gydytojas'", ParameterType.RequestBody);
       request.Timeout = 300000;
       //request.RequestFormat = DataFormat.Json;
       IRestResponse response = client.Execute(request);
@@ -55,7 +56,7 @@ namespace VASPVTScrap
       request.AddParameter("undefined", $"sort=&page=1&pageSize=20&group=&filter=StampNo~eq~'{StampNo}'", ParameterType.RequestBody);
       IRestResponse response = client.Execute(request);
       var licensija = JsonConvert.DeserializeObject<Response>(response.Content);
-      return licensija.Data[0];
+      return licensija.Data.Count>0?licensija.Data[0]:null;
     }
   }
 }

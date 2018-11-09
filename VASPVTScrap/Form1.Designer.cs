@@ -30,7 +30,6 @@
     {
       this.components = new System.ComponentModel.Container();
       System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
-      this.dataGridView1 = new System.Windows.Forms.DataGridView();
       this.label1 = new System.Windows.Forms.Label();
       this.label_Count_Server = new System.Windows.Forms.Label();
       this.label_Count_Parsiusta = new System.Windows.Forms.Label();
@@ -56,27 +55,14 @@
       this.progressBar_Compare = new System.Windows.Forms.ProgressBar();
       this.backgroundWorker_Compare = new System.ComponentModel.BackgroundWorker();
       this.button_Compare_Stop = new System.Windows.Forms.Button();
-      ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+      this.richTextBox_Log = new System.Windows.Forms.RichTextBox();
       this.SuspendLayout();
-      // 
-      // dataGridView1
-      // 
-      this.dataGridView1.AllowUserToAddRows = false;
-      this.dataGridView1.AllowUserToDeleteRows = false;
-      this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-      this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Top;
-      this.dataGridView1.Location = new System.Drawing.Point(0, 0);
-      this.dataGridView1.Name = "dataGridView1";
-      this.dataGridView1.ReadOnly = true;
-      this.dataGridView1.RowTemplate.Height = 24;
-      this.dataGridView1.Size = new System.Drawing.Size(982, 531);
-      this.dataGridView1.TabIndex = 0;
       // 
       // label1
       // 
       this.label1.AutoSize = true;
       this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-      this.label1.Location = new System.Drawing.Point(12, 547);
+      this.label1.Location = new System.Drawing.Point(12, 317);
       this.label1.Name = "label1";
       this.label1.Size = new System.Drawing.Size(124, 20);
       this.label1.TabIndex = 1;
@@ -86,7 +72,7 @@
       // 
       this.label_Count_Server.AutoSize = true;
       this.label_Count_Server.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-      this.label_Count_Server.Location = new System.Drawing.Point(183, 547);
+      this.label_Count_Server.Location = new System.Drawing.Point(183, 317);
       this.label_Count_Server.Name = "label_Count_Server";
       this.label_Count_Server.Size = new System.Drawing.Size(18, 20);
       this.label_Count_Server.TabIndex = 2;
@@ -96,7 +82,7 @@
       // 
       this.label_Count_Parsiusta.AutoSize = true;
       this.label_Count_Parsiusta.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-      this.label_Count_Parsiusta.Location = new System.Drawing.Point(183, 567);
+      this.label_Count_Parsiusta.Location = new System.Drawing.Point(183, 337);
       this.label_Count_Parsiusta.Name = "label_Count_Parsiusta";
       this.label_Count_Parsiusta.Size = new System.Drawing.Size(18, 20);
       this.label_Count_Parsiusta.TabIndex = 4;
@@ -106,7 +92,7 @@
       // 
       this.label3.AutoSize = true;
       this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-      this.label3.Location = new System.Drawing.Point(12, 567);
+      this.label3.Location = new System.Drawing.Point(12, 337);
       this.label3.Name = "label3";
       this.label3.Size = new System.Drawing.Size(125, 20);
       this.label3.TabIndex = 3;
@@ -116,7 +102,7 @@
       // 
       this.label_Klaidos.AutoSize = true;
       this.label_Klaidos.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-      this.label_Klaidos.Location = new System.Drawing.Point(183, 627);
+      this.label_Klaidos.Location = new System.Drawing.Point(183, 397);
       this.label_Klaidos.Name = "label_Klaidos";
       this.label_Klaidos.Size = new System.Drawing.Size(18, 20);
       this.label_Klaidos.TabIndex = 6;
@@ -126,7 +112,7 @@
       // 
       this.label4.AutoSize = true;
       this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-      this.label4.Location = new System.Drawing.Point(12, 627);
+      this.label4.Location = new System.Drawing.Point(12, 397);
       this.label4.Name = "label4";
       this.label4.Size = new System.Drawing.Size(69, 20);
       this.label4.TabIndex = 5;
@@ -135,7 +121,7 @@
       // button_Scrap
       // 
       this.button_Scrap.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-      this.button_Scrap.Location = new System.Drawing.Point(279, 541);
+      this.button_Scrap.Location = new System.Drawing.Point(274, 325);
       this.button_Scrap.Name = "button_Scrap";
       this.button_Scrap.Size = new System.Drawing.Size(174, 32);
       this.button_Scrap.TabIndex = 7;
@@ -155,7 +141,7 @@
       // 
       this.label_Puslapiu_Parsiusta.AutoSize = true;
       this.label_Puslapiu_Parsiusta.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-      this.label_Puslapiu_Parsiusta.Location = new System.Drawing.Point(183, 607);
+      this.label_Puslapiu_Parsiusta.Location = new System.Drawing.Point(183, 377);
       this.label_Puslapiu_Parsiusta.Name = "label_Puslapiu_Parsiusta";
       this.label_Puslapiu_Parsiusta.Size = new System.Drawing.Size(18, 20);
       this.label_Puslapiu_Parsiusta.TabIndex = 9;
@@ -165,7 +151,7 @@
       // 
       this.label5.AutoSize = true;
       this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-      this.label5.Location = new System.Drawing.Point(12, 607);
+      this.label5.Location = new System.Drawing.Point(12, 377);
       this.label5.Name = "label5";
       this.label5.Size = new System.Drawing.Size(152, 20);
       this.label5.TabIndex = 8;
@@ -173,7 +159,7 @@
       // 
       // progressBar1
       // 
-      this.progressBar1.Location = new System.Drawing.Point(459, 541);
+      this.progressBar1.Location = new System.Drawing.Point(454, 325);
       this.progressBar1.Name = "progressBar1";
       this.progressBar1.Size = new System.Drawing.Size(195, 32);
       this.progressBar1.TabIndex = 10;
@@ -181,7 +167,7 @@
       // button_Scrap_Stop
       // 
       this.button_Scrap_Stop.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-      this.button_Scrap_Stop.Location = new System.Drawing.Point(660, 541);
+      this.button_Scrap_Stop.Location = new System.Drawing.Point(655, 325);
       this.button_Scrap_Stop.Name = "button_Scrap_Stop";
       this.button_Scrap_Stop.Size = new System.Drawing.Size(174, 32);
       this.button_Scrap_Stop.TabIndex = 11;
@@ -193,7 +179,7 @@
       // 
       this.label_Puslapiu_Serveryje.AutoSize = true;
       this.label_Puslapiu_Serveryje.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-      this.label_Puslapiu_Serveryje.Location = new System.Drawing.Point(183, 587);
+      this.label_Puslapiu_Serveryje.Location = new System.Drawing.Point(183, 357);
       this.label_Puslapiu_Serveryje.Name = "label_Puslapiu_Serveryje";
       this.label_Puslapiu_Serveryje.Size = new System.Drawing.Size(18, 20);
       this.label_Puslapiu_Serveryje.TabIndex = 13;
@@ -203,7 +189,7 @@
       // 
       this.label6.AutoSize = true;
       this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-      this.label6.Location = new System.Drawing.Point(12, 587);
+      this.label6.Location = new System.Drawing.Point(12, 357);
       this.label6.Name = "label6";
       this.label6.Size = new System.Drawing.Size(151, 20);
       this.label6.TabIndex = 12;
@@ -212,7 +198,7 @@
       // button_Create_Excel
       // 
       this.button_Create_Excel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-      this.button_Create_Excel.Location = new System.Drawing.Point(279, 657);
+      this.button_Create_Excel.Location = new System.Drawing.Point(274, 441);
       this.button_Create_Excel.Name = "button_Create_Excel";
       this.button_Create_Excel.Size = new System.Drawing.Size(174, 32);
       this.button_Create_Excel.TabIndex = 14;
@@ -235,7 +221,7 @@
       // 
       // progressBar_Excel_Save
       // 
-      this.progressBar_Excel_Save.Location = new System.Drawing.Point(459, 657);
+      this.progressBar_Excel_Save.Location = new System.Drawing.Point(454, 441);
       this.progressBar_Excel_Save.Name = "progressBar_Excel_Save";
       this.progressBar_Excel_Save.Size = new System.Drawing.Size(195, 32);
       this.progressBar_Excel_Save.TabIndex = 15;
@@ -243,7 +229,7 @@
       // button_Read_Excel
       // 
       this.button_Read_Excel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-      this.button_Read_Excel.Location = new System.Drawing.Point(279, 581);
+      this.button_Read_Excel.Location = new System.Drawing.Point(274, 365);
       this.button_Read_Excel.Name = "button_Read_Excel";
       this.button_Read_Excel.Size = new System.Drawing.Size(174, 32);
       this.button_Read_Excel.TabIndex = 16;
@@ -260,7 +246,7 @@
       // 
       // progressBar_Excel_Read
       // 
-      this.progressBar_Excel_Read.Location = new System.Drawing.Point(459, 581);
+      this.progressBar_Excel_Read.Location = new System.Drawing.Point(454, 365);
       this.progressBar_Excel_Read.Name = "progressBar_Excel_Read";
       this.progressBar_Excel_Read.Size = new System.Drawing.Size(195, 32);
       this.progressBar_Excel_Read.TabIndex = 17;
@@ -268,7 +254,7 @@
       // button_Lyginti_Įrašus
       // 
       this.button_Lyginti_Įrašus.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-      this.button_Lyginti_Įrašus.Location = new System.Drawing.Point(279, 619);
+      this.button_Lyginti_Įrašus.Location = new System.Drawing.Point(274, 403);
       this.button_Lyginti_Įrašus.Name = "button_Lyginti_Įrašus";
       this.button_Lyginti_Įrašus.Size = new System.Drawing.Size(174, 32);
       this.button_Lyginti_Įrašus.TabIndex = 18;
@@ -278,7 +264,7 @@
       // 
       // progressBar_Compare
       // 
-      this.progressBar_Compare.Location = new System.Drawing.Point(459, 619);
+      this.progressBar_Compare.Location = new System.Drawing.Point(454, 403);
       this.progressBar_Compare.Name = "progressBar_Compare";
       this.progressBar_Compare.Size = new System.Drawing.Size(195, 32);
       this.progressBar_Compare.TabIndex = 19;
@@ -289,11 +275,12 @@
       this.backgroundWorker_Compare.WorkerSupportsCancellation = true;
       this.backgroundWorker_Compare.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker_Compare_DoWork);
       this.backgroundWorker_Compare.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.backgroundWorker_Compare_ProgressChanged);
+      this.backgroundWorker_Compare.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker_Compare_RunWorkerCompleted);
       // 
       // button_Compare_Stop
       // 
       this.button_Compare_Stop.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-      this.button_Compare_Stop.Location = new System.Drawing.Point(660, 619);
+      this.button_Compare_Stop.Location = new System.Drawing.Point(655, 403);
       this.button_Compare_Stop.Name = "button_Compare_Stop";
       this.button_Compare_Stop.Size = new System.Drawing.Size(174, 32);
       this.button_Compare_Stop.TabIndex = 20;
@@ -301,11 +288,23 @@
       this.button_Compare_Stop.UseVisualStyleBackColor = true;
       this.button_Compare_Stop.Click += new System.EventHandler(this.button_Compare_Stop_Click);
       // 
+      // richTextBox_Log
+      // 
+      this.richTextBox_Log.Dock = System.Windows.Forms.DockStyle.Top;
+      this.richTextBox_Log.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+      this.richTextBox_Log.Location = new System.Drawing.Point(0, 0);
+      this.richTextBox_Log.Name = "richTextBox_Log";
+      this.richTextBox_Log.ReadOnly = true;
+      this.richTextBox_Log.Size = new System.Drawing.Size(845, 314);
+      this.richTextBox_Log.TabIndex = 21;
+      this.richTextBox_Log.Text = "";
+      // 
       // Form1
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-      this.ClientSize = new System.Drawing.Size(982, 694);
+      this.ClientSize = new System.Drawing.Size(845, 485);
+      this.Controls.Add(this.richTextBox_Log);
       this.Controls.Add(this.button_Compare_Stop);
       this.Controls.Add(this.progressBar_Compare);
       this.Controls.Add(this.button_Lyginti_Įrašus);
@@ -326,19 +325,15 @@
       this.Controls.Add(this.label3);
       this.Controls.Add(this.label_Count_Server);
       this.Controls.Add(this.label1);
-      this.Controls.Add(this.dataGridView1);
       this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
       this.Name = "Form1";
       this.Text = "VASPVTScrap";
-      ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
       this.ResumeLayout(false);
       this.PerformLayout();
 
     }
 
     #endregion
-
-    private System.Windows.Forms.DataGridView dataGridView1;
     private System.Windows.Forms.Label label1;
     private System.Windows.Forms.Label label_Count_Server;
     private System.Windows.Forms.Label label_Count_Parsiusta;
@@ -364,6 +359,7 @@
     private System.Windows.Forms.ProgressBar progressBar_Compare;
     private System.ComponentModel.BackgroundWorker backgroundWorker_Compare;
     private System.Windows.Forms.Button button_Compare_Stop;
+    private System.Windows.Forms.RichTextBox richTextBox_Log;
   }
 }
 
