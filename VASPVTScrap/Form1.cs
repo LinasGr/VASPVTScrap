@@ -264,6 +264,7 @@ namespace VASPVTScrap
     private void backgroundWorker_Scrap_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
     {
       label_Count_Parsiusta.Text = ExcelDataFromServer.Data.Count.ToString();
+      label_Dublikatai.Text = ScrapLog.dublicates.ToString();
       richTextBox_Log.AppendText($"[{DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss")}] - " +
                                  $"Serveryje įrašų({label_Count_Server.Text}). " +
                                  $"Įrašų parsiųsta({label_Count_Parsiusta.Text}). " +

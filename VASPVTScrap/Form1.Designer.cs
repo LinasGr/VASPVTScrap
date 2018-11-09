@@ -56,6 +56,8 @@
       this.backgroundWorker_Compare = new System.ComponentModel.BackgroundWorker();
       this.button_Compare_Stop = new System.Windows.Forms.Button();
       this.richTextBox_Log = new System.Windows.Forms.RichTextBox();
+      this.label_Dublikatai = new System.Windows.Forms.Label();
+      this.label7 = new System.Windows.Forms.Label();
       this.SuspendLayout();
       // 
       // label1
@@ -101,10 +103,10 @@
       // label_Klaidos
       // 
       this.label_Klaidos.AutoSize = true;
-      this.label_Klaidos.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-      this.label_Klaidos.Location = new System.Drawing.Point(183, 397);
+      this.label_Klaidos.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+      this.label_Klaidos.Location = new System.Drawing.Point(183, 435);
       this.label_Klaidos.Name = "label_Klaidos";
-      this.label_Klaidos.Size = new System.Drawing.Size(18, 20);
+      this.label_Klaidos.Size = new System.Drawing.Size(19, 20);
       this.label_Klaidos.TabIndex = 6;
       this.label_Klaidos.Text = "0";
       // 
@@ -112,7 +114,7 @@
       // 
       this.label4.AutoSize = true;
       this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-      this.label4.Location = new System.Drawing.Point(12, 397);
+      this.label4.Location = new System.Drawing.Point(12, 435);
       this.label4.Name = "label4";
       this.label4.Size = new System.Drawing.Size(69, 20);
       this.label4.TabIndex = 5;
@@ -299,11 +301,33 @@
       this.richTextBox_Log.TabIndex = 21;
       this.richTextBox_Log.Text = "";
       // 
+      // label_Dublikatai
+      // 
+      this.label_Dublikatai.AutoSize = true;
+      this.label_Dublikatai.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+      this.label_Dublikatai.Location = new System.Drawing.Point(183, 415);
+      this.label_Dublikatai.Name = "label_Dublikatai";
+      this.label_Dublikatai.Size = new System.Drawing.Size(19, 20);
+      this.label_Dublikatai.TabIndex = 23;
+      this.label_Dublikatai.Text = "0";
+      // 
+      // label7
+      // 
+      this.label7.AutoSize = true;
+      this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+      this.label7.Location = new System.Drawing.Point(12, 415);
+      this.label7.Name = "label7";
+      this.label7.Size = new System.Drawing.Size(136, 20);
+      this.label7.TabIndex = 22;
+      this.label7.Text = "Ištrinta dublikatų:";
+      // 
       // Form1
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
       this.ClientSize = new System.Drawing.Size(845, 485);
+      this.Controls.Add(this.label_Dublikatai);
+      this.Controls.Add(this.label7);
       this.Controls.Add(this.richTextBox_Log);
       this.Controls.Add(this.button_Compare_Stop);
       this.Controls.Add(this.progressBar_Compare);
@@ -360,6 +384,8 @@
     private System.ComponentModel.BackgroundWorker backgroundWorker_Compare;
     private System.Windows.Forms.Button button_Compare_Stop;
     private System.Windows.Forms.RichTextBox richTextBox_Log;
+    private System.Windows.Forms.Label label_Dublikatai;
+    private System.Windows.Forms.Label label7;
   }
 }
 

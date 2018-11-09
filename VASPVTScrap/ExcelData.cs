@@ -194,6 +194,10 @@ namespace VASPVTScrap
         bw.ReportProgress(i * 40 / NeedToBeUpdated.Count + 60);
       }
       NeedToBeUpdated = new List<ExcelLicencija>();
+      
+      //Negaliojančių licencijų panaikinimas
+      Data = Data.FindAll(x => x.Licencijos_būsena == "Aktyvi").ToList();
+
       bw.ReportProgress(100);
     }
   }
