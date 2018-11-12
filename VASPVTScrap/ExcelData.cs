@@ -33,6 +33,7 @@ namespace VASPVTScrap
     {
       xlApp.Application.Quit();
       xlApp.Quit();
+      xlApp = null;
     }
 
     public int Distinct()
@@ -105,7 +106,7 @@ namespace VASPVTScrap
 
       //Close file
       xlWb.Close();
-      xlApp.Application.Quit();
+      //xlApp.Application.Quit();
       bw.ReportProgress(98);
 
     }
@@ -141,7 +142,7 @@ namespace VASPVTScrap
 
       //Closing excel
       xlWb.Close();
-      xlApp.Application.Quit();
+      //xlApp.Application.Quit();
       bw.ReportProgress(80);
 
       //Filling data

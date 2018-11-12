@@ -26,8 +26,9 @@ namespace VASPVTScrap
     private LogData FileReadLog { get; set; }
     private LogData FileSaveLog { get; set; }
     private LogData CompareLog { get; set; }
+    private bool Auto { get; set; }
 
-    public Form1()
+    public Form1(bool auto)
     {
       InitializeComponent();
       ScrapLog = new LogData();
@@ -40,15 +41,29 @@ namespace VASPVTScrap
       //PagesDownloaded = 0;
       ExcelDataFromServer = new ExcelData();
       ExcelDataFromFile = new ExcelData();
+      ReadLog();
+      richTextBox_Log.SelectionStart = richTextBox_Log.Text.Length;
+      richTextBox_Log.ScrollToCaret();
       richTextBox_Log.AppendText($"[{DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss")}] - " +
                                  "Programos paleidimas - [");
       richTextBox_Log.AppendText("Atlikta", Color.Green);
       richTextBox_Log.AppendText("]\n");
+      if (auto)
+      {
+        checkBox_Auto.Checked = true;
+        Auto = auto;
+      }
     }
 
     private void SaveLog()
     {
       richTextBox_Log.SaveFile(ExcelDataFromFile.path + "LogFile.rtf");
+    }
+
+    private void ReadLog()
+    {
+      if (File.Exists(ExcelDataFromFile.path + "LogFile.rtf"))
+        richTextBox_Log.LoadFile(ExcelDataFromFile.path + "LogFile.rtf");
     }
 
     private void button_Scrap_Click(object sender, EventArgs e)
@@ -223,7 +238,7 @@ namespace VASPVTScrap
       richTextBox_Log.AppendText("Atlikta", FileReadLog.dublicates == 0 ? Color.Green : Color.Red);
       richTextBox_Log.AppendText("]\n");
       playSimpleSound();
-      SaveLog();  
+      SaveLog();
       if (checkBox_Auto.Checked)
       {
         //tesiamas automatinis uzduoties vykdymas
@@ -245,6 +260,10 @@ namespace VASPVTScrap
       richTextBox_Log.AppendText("Atlikta", Color.Green);
       richTextBox_Log.AppendText("]\n");
       SaveLog();
+      if (checkBox_Auto.Checked)
+      {
+        Close();
+      }
     }
 
     private void button_Lyginti_Įrašus_Click(object sender, EventArgs e)
@@ -361,6 +380,32 @@ namespace VASPVTScrap
         if (!backgroundWorker_Read_Excel.IsBusy)
           backgroundWorker_Read_Excel.RunWorkerAsync();
       }
+    }
+
+    private void richTextBox_Log_TextChanged(object sender, EventArgs e)
+    {
+      richTextBox_Log.SelectionStart = richTextBox_Log.Text.Length;
+      richTextBox_Log.ScrollToCaret();
+    }
+
+    private void Form1_Resize(object sender, EventArgs e)
+    {
+      if (WindowState == FormWindowState.Minimized)
+      {
+        Hide();
+      }
+    }
+
+    private void notifyIcon1_MouseDoubleClick(object sender, MouseEventArgs e)
+    {
+      Auto = false;
+      Show();
+      WindowState = FormWindowState.Normal;
+    }
+
+    private void Form1_Shown(object sender, EventArgs e)
+    {
+      if (Auto) WindowState = FormWindowState.Minimized;
     }
   }
 }

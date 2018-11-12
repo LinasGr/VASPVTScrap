@@ -215,6 +215,7 @@
       this.notifyIcon1.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIcon1.Icon")));
       this.notifyIcon1.Text = "notifyIcon1";
       this.notifyIcon1.Visible = true;
+      this.notifyIcon1.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.notifyIcon1_MouseDoubleClick);
       // 
       // backgroundWorker_Read_Excel
       // 
@@ -299,9 +300,11 @@
       this.richTextBox_Log.Location = new System.Drawing.Point(0, 0);
       this.richTextBox_Log.Name = "richTextBox_Log";
       this.richTextBox_Log.ReadOnly = true;
+      this.richTextBox_Log.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Horizontal;
       this.richTextBox_Log.Size = new System.Drawing.Size(845, 314);
       this.richTextBox_Log.TabIndex = 21;
       this.richTextBox_Log.Text = "";
+      this.richTextBox_Log.TextChanged += new System.EventHandler(this.richTextBox_Log_TextChanged);
       // 
       // label_Dublikatai
       // 
@@ -377,7 +380,10 @@
       this.Controls.Add(this.label1);
       this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
       this.Name = "Form1";
+      this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
       this.Text = "VASPVTScrap";
+      this.Shown += new System.EventHandler(this.Form1_Shown);
+      this.Resize += new System.EventHandler(this.Form1_Resize);
       this.ResumeLayout(false);
       this.PerformLayout();
 
