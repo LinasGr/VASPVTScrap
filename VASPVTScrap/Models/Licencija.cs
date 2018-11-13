@@ -1,13 +1,24 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace VASPVTScrap.Models
 {
-  class Licencija
+  internal class Licencija
   {
+    public Licencija()
+    {
+      StampType = "";
+      StampNo = "";
+      FirstName = "";
+      LastName = "";
+      LicenseNo = "";
+      ProfessionalQualification = "";
+      IssueDate = DateTime.MinValue;
+      OrderNo = "";
+      OrderDate = DateTime.MinValue;
+      MaintenanceDate = DateTime.MinValue;
+      MaintenanceOrderNo = "";
+    }
+
     public int Id { get; set; }
     public string StampNo { get; set; }
     public string StampType { get; set; }
@@ -24,22 +35,5 @@ namespace VASPVTScrap.Models
     public bool OrderCreated { get; set; }
     public DateTime? MaintenanceDate { get; set; }
     public string MaintenanceOrderNo { get; set; }
-
-    public Licencija()
-    {
-      StampType = "";
-      StampNo = "";
-      FirstName = "";
-      LastName = "";
-      LicenseNo = "";
-      ProfessionalQualification = "";
-      IssueDate=DateTime.MinValue;
-      OrderNo = "";
-      OrderDate=DateTime.MinValue;
-      MaintenanceDate=DateTime.MinValue;
-      MaintenanceOrderNo = "";
-    }
-
   }
 }
-

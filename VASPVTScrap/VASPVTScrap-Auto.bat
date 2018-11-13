@@ -1,2 +1,2 @@
-start VASPVTScrap.exe -a
+start VASPVTScrap.exe -a -s
 exit

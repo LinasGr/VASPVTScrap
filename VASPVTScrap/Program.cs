@@ -1,22 +1,25 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace VASPVTScrap
 {
-  static class Program
+  internal static class Program
   {
     /// <summary>
-    /// The main entry point for the application.
+    ///   The main entry point for the application.
     /// </summary>
     [STAThread]
-    static void Main(string[] args)
+    private static void Main(string[] args)
     {
+      if (Process.GetProcessesByName(Process.GetCurrentProcess().ProcessName).Length > 1)
+      {
+        return;
+      }
       Application.EnableVisualStyles();
       Application.SetCompatibleTextRenderingDefault(false);
-      Application.Run(new Form1(args.Contains("-a")));  
+      Application.Run(new Form1(args.Contains("-a"), args.Contains("-s")));
     }
   }
 }

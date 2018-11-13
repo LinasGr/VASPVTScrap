@@ -1,34 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
+using System.Deployment.Application;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
-using System.Linq;
 using System.Media;
-using System.Text;
+using System.Reflection;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using VASPVTScrap.Models;
-using Excel = Microsoft.Office.Interop.Excel;
 
 namespace VASPVTScrap
 {
   public partial class Form1 : Form
   {
-    private Response response { get; set; }
-    private Scrap request { get; set; }
-    private ExcelData ExcelDataFromServer { get; set; }
-    private ExcelData ExcelDataFromFile { get; set; }
-    private LogData ScrapLog { get; set; }
-    private LogData FileReadLog { get; set; }
-    private LogData FileSaveLog { get; set; }
-    private LogData CompareLog { get; set; }
-    private bool Auto { get; set; }
-
-    public Form1(bool auto)
+    public Form1(bool auto, bool audio)
     {
       InitializeComponent();
       ScrapLog = new LogData();
@@ -37,8 +23,7 @@ namespace VASPVTScrap
       CompareLog = new LogData();
       request = new Scrap();
       response = new Response();
-      //PagesOnServer = 0;
-      //PagesDownloaded = 0;
+
       ExcelDataFromServer = new ExcelData();
       ExcelDataFromFile = new ExcelData();
       ReadLog();
@@ -48,10 +33,44 @@ namespace VASPVTScrap
                                  "Programos paleidimas - [");
       richTextBox_Log.AppendText("Atlikta", Color.Green);
       richTextBox_Log.AppendText("]\n");
+      SaveLog();
       if (auto)
       {
         checkBox_Auto.Checked = true;
         Auto = auto;
+      }
+
+      Audio = !audio;
+      Text = VersionLabel;
+    }
+
+    private Response response { get; set; }
+    private Scrap request { get; }
+    private ExcelData ExcelDataFromServer { get; }
+    private ExcelData ExcelDataFromFile { get; }
+    private LogData ScrapLog { get; }
+    private LogData FileReadLog { get; }
+    private LogData FileSaveLog { get; }
+    private LogData CompareLog { get; }
+    private bool Auto { get; set; }
+    private bool Audio { get; }
+
+    public string VersionLabel
+    {
+      get
+      {
+        try
+        {
+          var ver = ApplicationDeployment.CurrentDeployment.CurrentVersion;
+          return string.Format("{4}, Version: {0}.{1}.{2}.{3}", ver.Major, ver.Minor, ver.Build, ver.Revision,
+            Assembly.GetEntryAssembly().GetName().Name);
+        }
+        catch (Exception e)
+        {
+          var ver = Assembly.GetExecutingAssembly().GetName().Version;
+          return string.Format("{4}, Version: {0}.{1}.{2}.{3}", ver.Major, ver.Minor, ver.Build, ver.Revision,
+            Assembly.GetEntryAssembly().GetName().Name);
+        }
       }
     }
 
@@ -73,6 +92,7 @@ namespace VASPVTScrap
         MessageBox.Show("Siuntimas jau vyksta.");
         return;
       }
+
       progressBar_Scrap.Value = 1;
       backgroundWorker_Scrap.RunWorkerAsync();
     }
@@ -102,7 +122,7 @@ namespace VASPVTScrap
       ScrapLog.localPages++;
       backgroundWorker_Scrap.ReportProgress(100 / pagesTotal);
 
-      for (int i = 2; i <= pagesTotal; i++)
+      for (var i = 2; i <= pagesTotal; i++)
       {
         Thread.Sleep(5000);
         response = request.RequestRecords(i, recordsPerPage);
@@ -151,6 +171,7 @@ namespace VASPVTScrap
         MessageBox.Show("Vyksta Excel failo skaitymas.");
         return;
       }
+
       if (ExcelDataFromFile.Data.Count == 0)
       {
         if (ExcelDataFromServer.Data.Count == 0)
@@ -158,13 +179,16 @@ namespace VASPVTScrap
           MessageBox.Show("Nėra įrašų.");
           return;
         }
+
         ExcelDataFromFile.Data = ExcelDataFromServer.Data;
       }
+
       if (backgroundWorker_Save_Excel.IsBusy)
       {
         MessageBox.Show("Įrašymas jau vyksta.");
         return;
       }
+
       progressBar_Excel_Save.Value = 0;
       backgroundWorker_Save_Excel.RunWorkerAsync();
     }
@@ -214,11 +238,13 @@ namespace VASPVTScrap
         MessageBox.Show("Vyksta Excel failo skaitymas.");
         return;
       }
+
       if (backgroundWorker_Save_Excel.IsBusy)
       {
         MessageBox.Show("Įrašymas jau vyksta.");
         return;
       }
+
       progressBar_Excel_Read.Value = 0;
       backgroundWorker_Read_Excel.RunWorkerAsync();
     }
@@ -243,7 +269,9 @@ namespace VASPVTScrap
       {
         //tesiamas automatinis uzduoties vykdymas
         if (progressBar_Scrap.Value == 100)
+        {
           backgroundWorker_Compare.RunWorkerAsync();
+        }
         else
         {
           if (!backgroundWorker_Scrap.IsBusy)
@@ -260,10 +288,7 @@ namespace VASPVTScrap
       richTextBox_Log.AppendText("Atlikta", Color.Green);
       richTextBox_Log.AppendText("]\n");
       SaveLog();
-      if (checkBox_Auto.Checked)
-      {
-        Close();
-      }
+      if (checkBox_Auto.Checked) Close();
     }
 
     private void button_Lyginti_Įrašus_Click(object sender, EventArgs e)
@@ -273,11 +298,13 @@ namespace VASPVTScrap
         MessageBox.Show("Lyginimas jau vyksta.");
         return;
       }
+
       if (ExcelDataFromFile.Data.Count == 0 || ExcelDataFromServer.Data.Count == 0)
       {
         MessageBox.Show("Trūksta duomenų palyginimui.");
         return;
       }
+
       progressBar_Compare.Value = 0;
       backgroundWorker_Compare.RunWorkerAsync();
     }
@@ -313,7 +340,7 @@ namespace VASPVTScrap
                                  $"Įrašų parsiųsta({label_Count_Parsiusta.Text}). " +
                                  $"Puslapių serveryje({label_Puslapiu_Serveryje.Text}). " +
                                  $"Puslapių parsiūsta({label_Puslapiu_Parsiusta.Text}). Klaidos(");
-      richTextBox_Log.AppendText(ScrapLog.errors.ToString(), ScrapLog.errors == 0 ? ForeColor : Color.Red);
+      richTextBox_Log.AppendText(ScrapLog.errors.ToString(), ScrapLog.errors == 0 ? Color.Green : Color.Red);
       richTextBox_Log.AppendText("), Dublikatų ištrinta(");
       richTextBox_Log.AppendText(ScrapLog.dublicates.ToString(), ScrapLog.dublicates > 0 ? Color.Red : Color.Green);
       richTextBox_Log.AppendText($"), Užtruko minučiu({ScrapLog.timeSpan.Minutes}) - [");
@@ -348,22 +375,22 @@ namespace VASPVTScrap
       if (checkBox_Auto.Checked)
       {
         //tesiamas automatinis uzduoties vykdymas
-        while (backgroundWorker_Save_Excel.IsBusy)
-        {
-          Thread.Sleep(500);
-        }
+        while (backgroundWorker_Save_Excel.IsBusy) Thread.Sleep(500);
         backgroundWorker_Save_Excel.RunWorkerAsync();
       }
     }
+
     private void playSimpleSound()
     {
-      SoundPlayer simpleSound = new SoundPlayer("Beep Ping-SoundBible.com-217088958.wav");
-      simpleSound.Play();
+      if (Audio)
+      {
+        var simpleSound = new SoundPlayer("Beep Ping-SoundBible.com-217088958.wav");
+        simpleSound.Play();
+      }
     }
 
     private void bindingSource1_CurrentChanged(object sender, EventArgs e)
     {
-
     }
 
     private void button_Open_Dir_Click(object sender, EventArgs e)
@@ -390,10 +417,7 @@ namespace VASPVTScrap
 
     private void Form1_Resize(object sender, EventArgs e)
     {
-      if (WindowState == FormWindowState.Minimized)
-      {
-        Hide();
-      }
+      if (WindowState == FormWindowState.Minimized) Hide();
     }
 
     private void notifyIcon1_MouseDoubleClick(object sender, MouseEventArgs e)

@@ -13,7 +13,7 @@
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
     <IsWebBootstrapper>false</IsWebBootstrapper>
-    <PublishUrl>C:\Users\linas\Documents\Release\VASPVTScap\</PublishUrl>
+    <PublishUrl>C:\Users\linas\Documents\Release\VASPVTScrap\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
     <UpdateEnabled>false</UpdateEnabled>
@@ -23,7 +23,7 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <ApplicationRevision>3</ApplicationRevision>
+    <ApplicationRevision>12</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -62,6 +62,9 @@
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>Dapino-Medical-People-Nurse.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>VASPVTScrap.Program</StartupObject>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Office.Interop.Excel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
@@ -125,9 +128,9 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <None Include="VASPVTScrap-Auto.bat">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    <AdditionalFiles Include="VASPVTScrap-Auto.bat">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </AdditionalFiles>
     <None Include="VASPVTScrap_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
