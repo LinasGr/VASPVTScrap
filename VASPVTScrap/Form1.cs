@@ -259,10 +259,12 @@ namespace VASPVTScrap
       richTextBox_Log.AppendText($"[{DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss")}] - " +
                                  $"Nuskaityta įrašų({ExcelDataFromFile.Data.Count}). " +
                                  "Ištrinta dublikatų(");
-      richTextBox_Log.AppendText(FileReadLog.dublicates.ToString(), ScrapLog.dublicates > 0 ? Color.Red : Color.Green);
-      richTextBox_Log.AppendText($"). Užtruko sekundžių({FileReadLog.timeSpan.TotalSeconds}) - [");
-      richTextBox_Log.AppendText("Atlikta", FileReadLog.dublicates == 0 ? Color.Green : Color.Red);
-      richTextBox_Log.AppendText("]\n");
+      if (FileReadLog.dublicates > 0) richTextBox_Log.AppendText(FileReadLog.dublicates.ToString(), Color.Red);
+      else richTextBox_Log.AppendText(FileReadLog.dublicates.ToString(), Color.Green);
+      richTextBox_Log.AppendText($"). Užtruko sekundžių({FileReadLog.timeSpan.TotalSeconds}) - [",ForeColor);
+      if (FileReadLog.dublicates == 0) richTextBox_Log.AppendText("Atlikta", Color.Green);
+      else richTextBox_Log.AppendText("Atlikta", Color.Red);
+      richTextBox_Log.AppendText("]\n",ForeColor);
       playSimpleSound();
       SaveLog();
       if (checkBox_Auto.Checked)
@@ -340,9 +342,11 @@ namespace VASPVTScrap
                                  $"Įrašų parsiųsta({label_Count_Parsiusta.Text}). " +
                                  $"Puslapių serveryje({label_Puslapiu_Serveryje.Text}). " +
                                  $"Puslapių parsiūsta({label_Puslapiu_Parsiusta.Text}). Klaidos(");
-      richTextBox_Log.AppendText(ScrapLog.errors.ToString(), ScrapLog.errors == 0 ? Color.Green : Color.Red);
+      if (ScrapLog.errors == 0) richTextBox_Log.AppendText(ScrapLog.errors.ToString());
+      else richTextBox_Log.AppendText(ScrapLog.errors.ToString(), Color.Red);
       richTextBox_Log.AppendText("), Dublikatų ištrinta(");
-      richTextBox_Log.AppendText(ScrapLog.dublicates.ToString(), ScrapLog.dublicates > 0 ? Color.Red : Color.Green);
+      if (ScrapLog.dublicates == 0) richTextBox_Log.AppendText(ScrapLog.dublicates.ToString());
+      else richTextBox_Log.AppendText(ScrapLog.dublicates.ToString(), Color.Red);
       richTextBox_Log.AppendText($"), Užtruko minučiu({ScrapLog.timeSpan.Minutes}) - [");
       if (ScrapLog.errors == 0 && ScrapLog.dublicates == 0) richTextBox_Log.AppendText("Atlikta", Color.Green);
       else richTextBox_Log.AppendText("Atlikta", Color.Red);

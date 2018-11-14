@@ -67,14 +67,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="VASPVTScrap.exe" size="578528">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="VASPVTScrap.exe" size="580064">
       <assemblyIdentity name="VASPVTScrap" version="1.0.0.10" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>JWtQnpAdTZ5yX+AQ28CaW1JQsfndRGVXdtxI7Y5W4eI=</dsig:DigestValue>
+        <dsig:DigestValue>BiYCISWvw/zEzA2fx18TYH/QUkQaWMLvDrF6060Wefw=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

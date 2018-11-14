@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.28010.2050
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VASPVTScrap", "VASPVTScrap\VASPVTScrap.csproj", "{C2EB497B-C3C9-47E5-B8AB-F86DD02BC9B0}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "VASPVTScrap-Setup", "Installer\Installer.vdproj", "{6B80EA2A-F21D-46E2-8409-E694355DB4AF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,9 @@ Global
 		{C2EB497B-C3C9-47E5-B8AB-F86DD02BC9B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C2EB497B-C3C9-47E5-B8AB-F86DD02BC9B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C2EB497B-C3C9-47E5-B8AB-F86DD02BC9B0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6B80EA2A-F21D-46E2-8409-E694355DB4AF}.Debug|Any CPU.ActiveCfg = Debug
+		{6B80EA2A-F21D-46E2-8409-E694355DB4AF}.Release|Any CPU.ActiveCfg = Release
+		{6B80EA2A-F21D-46E2-8409-E694355DB4AF}.Release|Any CPU.Build.0 = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

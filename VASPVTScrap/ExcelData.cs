@@ -10,12 +10,10 @@ namespace VASPVTScrap
 {
   internal class ExcelData
   {
-    private Application xlApp;
+
 
     public ExcelData()
     {
-      xlApp = new Application();
-      xlApp.DisplayAlerts = false;
       Data = new List<ExcelLicencija>();
       path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\VASPVTScrap\\";
       if (!Directory.Exists(path)) Directory.CreateDirectory(path);
@@ -26,13 +24,6 @@ namespace VASPVTScrap
     public string path { get; }
 
     public List<ExcelLicencija> NeedToBeUpdated { get; set; }
-
-    ~ExcelData()
-    {
-      xlApp.Application.Quit();
-      xlApp.Quit();
-      xlApp = null;
-    }
 
     public int Distinct()
     {
@@ -75,10 +66,11 @@ namespace VASPVTScrap
         values[i + 1, 9] = Data[i].Priežiūros_data;
         values[i + 1, 10] = Data[i].Priežiūros_įsakymo_Nr;
       }
-
       bw.ReportProgress(20);
 
       //Opening file
+      Application xlApp = new Application();
+      xlApp.DisplayAlerts = false;
       var xlWb = xlApp.Workbooks.Add();
       var xlSheet = xlApp.ActiveSheet as Worksheet;
       bw.ReportProgress(45);
@@ -105,7 +97,8 @@ namespace VASPVTScrap
 
       //Close file
       xlWb.Close();
-      //xlApp.Application.Quit();
+      xlApp.Application.Quit();
+      xlApp.Quit();
       bw.ReportProgress(98);
     }
 
@@ -126,6 +119,8 @@ namespace VASPVTScrap
       bw.ReportProgress(10);
 
       //Open file
+      Application xlApp = new Application();
+      xlApp.DisplayAlerts = false;
       var xlWb = xlApp.Workbooks.Open(path + FileName);
       var xlSheet = xlApp.ActiveSheet as Worksheet;
       bw.ReportProgress(40);
@@ -134,14 +129,15 @@ namespace VASPVTScrap
       var last = xlSheet.Cells.SpecialCells(XlCellType.xlCellTypeLastCell, Type.Missing);
 
       //reading values
-      var range = xlSheet.get_Range("A2", "K" + last.Row + 1);
-      var values = (object[,]) range.Value2;
+      var range = xlSheet.get_Range("A2", "K" + last.Row);
+      var values = (object[,])range.Value2;
       var lastRow = last.Row;
       bw.ReportProgress(60);
 
       //Closing excel
       xlWb.Close();
-      //xlApp.Application.Quit();
+      xlApp.Application.Quit();
+      xlApp.Quit();
       bw.ReportProgress(80);
 
       //Filling data

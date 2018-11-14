@@ -9,7 +9,6 @@ C:\Users\linas\Documents\Git\VASPVTScrap\VASPVTScrap\bin\Release\Newtonsoft.Json
 C:\Users\linas\Documents\Git\VASPVTScrap\VASPVTScrap\bin\Release\RestSharp.dll
 C:\Users\linas\Documents\Git\VASPVTScrap\VASPVTScrap\bin\Release\Newtonsoft.Json.xml
 C:\Users\linas\Documents\Git\VASPVTScrap\VASPVTScrap\bin\Release\RestSharp.xml
-C:\Users\linas\Documents\Git\VASPVTScrap\VASPVTScrap\obj\Release\VASPVTScrap.csprojAssemblyReference.cache
 C:\Users\linas\Documents\Git\VASPVTScrap\VASPVTScrap\obj\Release\VASPVTScrap.Form1.resources
 C:\Users\linas\Documents\Git\VASPVTScrap\VASPVTScrap\obj\Release\VASPVTScrap.Properties.Resources.resources
 C:\Users\linas\Documents\Git\VASPVTScrap\VASPVTScrap\obj\Release\VASPVTScrap.csproj.GenerateResource.cache

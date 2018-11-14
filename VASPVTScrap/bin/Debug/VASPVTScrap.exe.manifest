@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <asmv1:assembly xsi:schemaLocation="urn:schemas-microsoft-com:asm.v1 assembly.adaptive.xsd" manifestVersion="1.0" xmlns:asmv1="urn:schemas-microsoft-com:asm.v1" xmlns="urn:schemas-microsoft-com:asm.v2" xmlns:asmv2="urn:schemas-microsoft-com:asm.v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:co.v1="urn:schemas-microsoft-com:clickonce.v1" xmlns:asmv3="urn:schemas-microsoft-com:asm.v3" xmlns:dsig="http://www.w3.org/2000/09/xmldsig#" xmlns:co.v2="urn:schemas-microsoft-com:clickonce.v2">
-  <asmv1:assemblyIdentity name="VASPVTScrap.exe" version="1.0.0.11" publicKeyToken="33b0ae4ed73e7dd4" language="neutral" processorArchitecture="msil" type="win32" />
+  <asmv1:assemblyIdentity name="VASPVTScrap.exe" version="1.0.0.12" publicKeyToken="0000000000000000" language="neutral" processorArchitecture="msil" type="win32" />
   <description asmv2:iconFile="Dapino-Medical-People-Nurse.ico" xmlns="urn:schemas-microsoft-com:asm.v1" />
   <application />
   <entryPoint>
@@ -67,14 +67,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="VASPVTScrap.exe" size="578528">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="VASPVTScrap.exe" size="580064">
       <assemblyIdentity name="VASPVTScrap" version="1.0.0.10" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>GZsCfcPymcnp1tQOImV9BnW9+qWIR+UedOIkBlhFiIo=</dsig:DigestValue>
+        <dsig:DigestValue>BiYCISWvw/zEzA2fx18TYH/QUkQaWMLvDrF6060Wefw=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -105,4 +105,4 @@
       <dsig:DigestValue>SFuAJeKPCvD4+78UJN+ukJykp1KIg29cXW9aKqf4gvw=</dsig:DigestValue>
     </hash>
   </file>
-<publisherIdentity name="CN=DESKTOP-GGKGRRO\linas" issuerKeyHash="db2b026964ad410ec37dabb376999229d28792d6" /><Signature Id="StrongNameSignature" xmlns="http://www.w3.org/2000/09/xmldsig#"><SignedInfo><CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /><SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha256" /><Reference URI=""><Transforms><Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" /><Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /></Transforms><DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" /><DigestValue>gvrQoBapSnBCs5pBnwBCzVli/PGG4KBCwGNUjeJceNs=</DigestValue></Reference></SignedInfo><SignatureValue>D+lAByxhSWstpxuzHh2ycubXDhrX+SfVtXo2Y88kcDN0ztN2GB8+YdykdDAk1I384UBsCpY58fLSFXWXbGUn1Ug/zj9OtGrCUHoUOqGyT9+mT0tCW3NhzpBpVcHUi797fNGYkElO8yZ0VYdj5doQvbBXqzvLlGu1xamuIhOmyjo=</SignatureValue><KeyInfo Id="StrongNameKeyInfo"><KeyValue><RSAKeyValue><Modulus>yUUXL42osi4uBpbjiMOfjB3J9L9UqEM7kQt0xDbxjDnLjD2KqIuToI+5I2wQ23VYr/smUORnsui012SPv6IYLwWH8ZkwTNeIRwYFux1rzIKAnWWA68nnIFHeYjpsqouIYhPntDr/jAHdQdka4D1ELNGJiok9AlkLw6NCRJyBxIk=</Modulus><Exponent>AQAB</Exponent></RSAKeyValue></KeyValue><msrel:RelData xmlns:msrel="http://schemas.microsoft.com/windows/rel/2005/reldata"><r:license xmlns:r="urn:mpeg:mpeg21:2003:01-REL-R-NS" xmlns:as="http://schemas.microsoft.com/windows/pki/2005/Authenticode"><r:grant><as:ManifestInformation Hash="db785ce28d5463c042a0e086f1fc6259cd42009f419ab342704aa916a0d0fa82" Description="" Url=""><as:assemblyIdentity name="VASPVTScrap.exe" version="1.0.0.11" publicKeyToken="33b0ae4ed73e7dd4" language="neutral" processorArchitecture="msil" type="win32" /></as:ManifestInformation><as:SignedBy /><as:AuthenticodePublisher><as:X509SubjectName>CN=DESKTOP-GGKGRRO\linas</as:X509SubjectName></as:AuthenticodePublisher></r:grant><r:issuer><Signature Id="AuthenticodeSignature" xmlns="http://www.w3.org/2000/09/xmldsig#"><SignedInfo><CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /><SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha256" /><Reference URI=""><Transforms><Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" /><Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /></Transforms><DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" /><DigestValue>TGK7lDgnhH8EVwMBYzHCtKxTLHHsmtImWz+YYPY+Wzs=</DigestValue></Reference></SignedInfo><SignatureValue>hwKMTVyGyh0/Zo9xpdmBhfe5HoGePdvLLTyEkpeAVA/1uajVCQc9chn3D5CbHMZn0KcKdpnGZ/QSofr26KJujnmaEiBnYrJhQL4nJJNC9bHbdU9p0D3Eh0T3FKW9Re508YStNFGPEFAHlqVN9PdSd+3xj/jLrpymx7deHOE/TdU=</SignatureValue><KeyInfo><KeyValue><RSAKeyValue><Modulus>yUUXL42osi4uBpbjiMOfjB3J9L9UqEM7kQt0xDbxjDnLjD2KqIuToI+5I2wQ23VYr/smUORnsui012SPv6IYLwWH8ZkwTNeIRwYFux1rzIKAnWWA68nnIFHeYjpsqouIYhPntDr/jAHdQdka4D1ELNGJiok9AlkLw6NCRJyBxIk=</Modulus><Exponent>AQAB</Exponent></RSAKeyValue></KeyValue><X509Data><X509Certificate>MIIB7TCCAVagAwIBAgIQZGLGVyhNhKdEz9Km1Tuw+DANBgkqhkiG9w0BAQsFADA1MTMwMQYDVQQDHioARABFAFMASwBUAE8AUAAtAEcARwBLAEcAUgBSAE8AXABsAGkAbgBhAHMwHhcNMTgxMTA5MjE1ODQzWhcNMTkxMTEwMDM1ODQzWjA1MTMwMQYDVQQDHioARABFAFMASwBUAE8AUAAtAEcARwBLAEcAUgBSAE8AXABsAGkAbgBhAHMwgZ8wDQYJKoZIhvcNAQEBBQADgY0AMIGJAoGBAMlFFy+NqLIuLgaW44jDn4wdyfS/VKhDO5ELdMQ28Yw5y4w9iqiLk6CPuSNsENt1WK/7JlDkZ7LotNdkj7+iGC8Fh/GZMEzXiEcGBbsda8yCgJ1lgOvJ5yBR3mI6bKqLiGIT57Q6/4wB3UHZGuA9RCzRiYqJPQJZC8OjQkScgcSJAgMBAAEwDQYJKoZIhvcNAQELBQADgYEABz7cSlXKXB5T0R2dicJJoZSZyg4t88Rh+bDLTwqROSUg/JLrij0bsXnRUQ3JXjNi9nI3yL9LafUW46PYITiogTM4FBAiQJjZvtt/uhFtUa9ZYT88BQLvvvQzv7yYWiNK6sN6nuoTgoPaH3qysqEPMf9FB/lYUfpE0sV5LFHlxXE=</X509Certificate></X509Data></KeyInfo></Signature></r:issuer></r:license></msrel:RelData></KeyInfo></Signature></asmv1:assembly>
+</asmv1:assembly>
