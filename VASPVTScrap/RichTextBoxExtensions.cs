@@ -9,10 +9,10 @@ namespace VASPVTScrap
     {
       box.SelectionStart = box.TextLength;
       box.SelectionLength = 0;
-
+      var defaultColor = box.SelectionColor;
       box.SelectionColor = color;
       box.AppendText(text);
-      box.SelectionColor = box.ForeColor;
+      box.SelectionColor = defaultColor;
     }
   }
 }

@@ -54,6 +54,7 @@ namespace VASPVTScrap
     private LogData CompareLog { get; }
     private bool Auto { get; set; }
     private bool Audio { get; }
+    private Color DefaultColor { get; }
 
     public string VersionLabel
     {
